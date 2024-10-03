@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class VultureStateClass : MonoBehaviour, IVultureState
 {
+    [SerializeField] protected float speed = 0;
+
     protected GameObject _vulture;
-    private bool _jump, _duck, _attack;
+    protected bool _jump, _duck, _attack;
 
     public GameObject Vulture
     {

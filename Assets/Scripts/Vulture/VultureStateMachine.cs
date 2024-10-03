@@ -24,18 +24,22 @@ public class VultureStateMachine : MonoBehaviour
         for (int i = 0; i < vultures.Length; i++)
         {
             // Find players without state machine assigned
-            if (vultures[i].GetComponent<VultureObject>() && vultures[i].GetComponent<VultureObject>().GetStateMachine()) { vulture = vultures[i]; }
+            if (vultures[i].GetComponent<VultureObject>() && !(vultures[i].GetComponent<VultureObject>().GetStateMachine())) {
+                Debug.Log("One vulture enabled");
+                vulture = vultures[i]; 
+            }
         }
 
         if (vulture == null) { Destroy(this); }  // no point in this state machine
+
+        for (int i = 0; i < vultureStates.Length; i++)
+        {
+            vultureStates[i].Vulture = this.vulture;
+        }
     }
 
     void Start()
     {
-        for (int i = 0; i < vultureStates.Length; i++) {
-            vultureStates[i].Vulture = this.vulture;
-        }
-
         state = AnimalStates.Grounded;  // vulture starts on ground
         postAttackTimer = minAttackBuffer;
         jumpTimer = maxJumpTime;
@@ -57,7 +61,7 @@ public class VultureStateMachine : MonoBehaviour
         if (state != AnimalStates.Dying && jumpsLeft > 0)
         {
             jumpsLeft--;
-            vultureStates[(int)state].Jumping();
+            vultureStates[Mathf.Min((int)state, vultureStates.Length)].Jumping();
 
             if (jumpsLeft > 0) { 
                 jumpTimer = 0;
@@ -67,12 +71,16 @@ public class VultureStateMachine : MonoBehaviour
 
     public void HaltJump()
     {
-        if (state != AnimalStates.Dying && state != AnimalStates.Airborne && jumpTimer < maxJumpTime) { vultureStates[(int)state].DisableJumping(); }
+        if (state != AnimalStates.Dying && state != AnimalStates.Airborne && jumpTimer < maxJumpTime) 
+        { 
+            vultureStates[Mathf.Min((int)state, vultureStates.Length)].DisableJumping(); 
+        }
     }
 
     public void StartDuck()
     {
-        if (state != AnimalStates.Dying) { vultureStates[(int)state].Ducking(); }
+        Debug.Log("duck attempt!");
+        if (state != AnimalStates.Dying) { vultureStates[Mathf.Min((int)state, vultureStates.Length)].Ducking(); }
     }
 
     public void HaltDuck()

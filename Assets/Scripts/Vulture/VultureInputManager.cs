@@ -19,7 +19,6 @@ public class VultureInputManager : MonoBehaviour
         attack.action.started += Attack;
         jump.action.canceled += StopJump;
         duck.action.canceled += StopDuck;
-        attack.action.started += Attack;
     }
 
     private void OnDisable()
@@ -27,6 +26,8 @@ public class VultureInputManager : MonoBehaviour
         jump.action.started -= Jump;
         duck.action.started -= Duck;
         attack.action.started -= Attack;
+        jump.action.canceled -= StopJump;
+        duck.action.canceled -= StopDuck;
     }
 
     private void Start()
@@ -50,16 +51,19 @@ public class VultureInputManager : MonoBehaviour
 
     private void Jump(InputAction.CallbackContext obj)
     {
+        Debug.Log("jump!");
         vultureStateMach.StartJump();
     }
 
     private void Duck(InputAction.CallbackContext obj)
     {
+        Debug.Log("duck!");
         vultureStateMach.StartDuck();
     }
 
     private void Attack(InputAction.CallbackContext obj)
     {
+        Debug.Log("attack!");
         vultureStateMach.Attack();
     }
 
