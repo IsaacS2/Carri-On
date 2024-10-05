@@ -6,11 +6,8 @@ using System.Collections.Generic;
 
 public class VultureInputManager : MonoBehaviour
 {
-    [SerializeField] private InputActionReference movement, jump, duck, attack;
+    [SerializeField] private InputActionReference jump, duck, attack;
     [SerializeField] private VultureStateMachine vultureStateMach;
-
-    //public event Action<Vector2> OnMovementChange = (_movementDirection) => { };
-    private Vector2 movementDirection;
 
     private void OnEnable()
     {
@@ -39,31 +36,18 @@ public class VultureInputManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        movementDirection = movement.action.ReadValue<Vector2>();
-
-        if (movementDirection != Vector2.zero)
-        {
-            vultureStateMach.SetMovementDirection(movementDirection);
-        }
-    }
-
     private void Jump(InputAction.CallbackContext obj)
     {
-        Debug.Log("jump!");
         vultureStateMach.StartJump();
     }
 
     private void Duck(InputAction.CallbackContext obj)
     {
-        Debug.Log("duck!");
         vultureStateMach.StartDuck();
     }
 
     private void Attack(InputAction.CallbackContext obj)
     {
-        Debug.Log("attack!");
         vultureStateMach.Attack();
     }
 

@@ -24,8 +24,7 @@ public class VultureStateMachine : MonoBehaviour
         for (int i = 0; i < vultures.Length; i++)
         {
             // Find players without state machine assigned
-            if (vultures[i].GetComponent<VultureObject>() && !(vultures[i].GetComponent<VultureObject>().GetStateMachine())) {
-                Debug.Log("One vulture enabled");
+            if (vultures[i].GetComponent<VultureObject>() && !vultures[i].GetComponent<VultureObject>().GetStateMachine()) {
                 vulture = vultures[i]; 
             }
         }
@@ -79,13 +78,13 @@ public class VultureStateMachine : MonoBehaviour
 
     public void StartDuck()
     {
-        Debug.Log("duck attempt!");
-        if (state != AnimalStates.Dying) { vultureStates[Mathf.Min((int)state, vultureStates.Length)].Ducking(); }
+        if (state != AnimalStates.Dying) {
+            vultureStates[Mathf.Min((int)state, vultureStates.Length)].Ducking(); }
     }
 
     public void HaltDuck()
     {
-        if (state != AnimalStates.Dying && state != AnimalStates.Airborne) {  }
+        if (state != AnimalStates.Dying && state != AnimalStates.Airborne) { vultureStates[Mathf.Min((int)state, vultureStates.Length)].DisableDucking(); }
     }
 
     public void Attack()

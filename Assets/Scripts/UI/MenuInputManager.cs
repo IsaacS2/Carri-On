@@ -20,6 +20,6 @@ public class MenuInputManager : MonoBehaviour
 
     private void Select(InputAction.CallbackContext obj)
     {
-        Debug.Log("select!");
+        Debug.Log("Select!");
     }
 }

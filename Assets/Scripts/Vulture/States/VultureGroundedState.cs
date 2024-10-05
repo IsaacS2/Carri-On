@@ -7,32 +7,45 @@ public class VultureGroundedState : VultureStateClass
     private float initialSpeed;
     private GameObject vultureBase;
 
-    private void Start()
+    protected override void Start()
     {
-        Debug.Log("grounded");
+        base.Start();
+
         initialSpeed = speed;
-        vultureBase = _vulture.transform.parent.gameObject;  // foot location of the vulture
+        vultureBase = Vulture != null ? Vulture.transform.parent.gameObject : null;  // foot location of the vulture
     }
 
-    private void Update()
+    protected override void FixedUpdate()
     {
-        
+        base.FixedUpdate();
     }
 
-    public new void Ducking()  // begin ducking
+    public override void Jumping()
     {
-        if (vultureBase != null)
+        if (jump && _rb != null)
         {
-            vultureBase.transform.localScale *= (1/2);
-            speed *= (1 / 4);
+            Debug.Log("Ok");
+            _rb.velocity = Vector3.zero;
+            _rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
         }
     }
 
-    public new void DisableDucking()  // stop ducking
+    public override void Ducking()  // begin ducking
+    {
+        if (vultureBase != null)
+        {
+            vultureBase.transform.localScale = new Vector3(vultureBase.transform.localScale.x, 
+                vultureBase.transform.localScale.y * .5f, vultureBase.transform.localScale.z);
+            speed *= (.25f);
+        }
+    }
+
+    public override void DisableDucking()  // stop ducking
     {
         if (vultureBase != null && initialSpeed != speed)
         {
-            vultureBase.transform.localScale *= 2;
+            vultureBase.transform.localScale = new Vector3(vultureBase.transform.localScale.x,
+                vultureBase.transform.localScale.y * 2, vultureBase.transform.localScale.z);
             speed = initialSpeed;
         }
     }
