@@ -25,21 +25,35 @@ public class VultureStateMachine : MonoBehaviour
         {
             // Find players without state machine assigned
             if (vultures[i].GetComponent<VultureObject>() && !vultures[i].GetComponent<VultureObject>().GetStateMachine()) {
-                vulture = vultures[i]; 
+                vulture = vultures[i];
             }
         }
 
         if (vulture == null) { Destroy(this); }  // no point in this state machine
 
+        state = AnimalStates.Grounded;  // vulture starts on ground
+
         for (int i = 0; i < vultureStates.Length; i++)
         {
             vultureStates[i].Vulture = this.vulture;
+            vultureStates[i].OnStateSwitch += SwitchState;
+            vultureStates[i].enabled = i == (int)state ? true : false;
+        }
+    }
+
+    private void OnDisable()
+    {
+        for (int i = 0; i < vultureStates.Length; i++)
+        {
+            if (vultureStates[i])
+            {
+                vultureStates[i].OnStateSwitch -= SwitchState;
+            }
         }
     }
 
     void Start()
     {
-        state = AnimalStates.Grounded;  // vulture starts on ground
         postAttackTimer = minAttackBuffer;
         jumpTimer = maxJumpTime;
         jumpsLeft = maxJumps;
@@ -47,7 +61,7 @@ public class VultureStateMachine : MonoBehaviour
 
     void Update()
     {
-        if (jumpTimer >= maxJumpTime) {  }
+        if (jumpTimer >= maxJumpTime) { }
     }
 
     public void SetMovementDirection(Vector2 _movementDirection)
@@ -62,7 +76,7 @@ public class VultureStateMachine : MonoBehaviour
             jumpsLeft--;
             vultureStates[Mathf.Min((int)state, vultureStates.Length)].Jumping();
 
-            if (jumpsLeft > 0) { 
+            if (jumpsLeft > 0) {
                 jumpTimer = 0;
             }
         }
@@ -70,9 +84,9 @@ public class VultureStateMachine : MonoBehaviour
 
     public void HaltJump()
     {
-        if (state != AnimalStates.Dying && state != AnimalStates.Airborne && jumpTimer < maxJumpTime) 
-        { 
-            vultureStates[Mathf.Min((int)state, vultureStates.Length)].DisableJumping(); 
+        if (state != AnimalStates.Dying && state != AnimalStates.Airborne && jumpTimer < maxJumpTime)
+        {
+            vultureStates[Mathf.Min((int)state, vultureStates.Length)].DisableJumping();
         }
     }
 
@@ -90,8 +104,13 @@ public class VultureStateMachine : MonoBehaviour
     public void Attack()
     {
         if (state != AnimalStates.Dying && postAttackTimer >= minAttackBuffer) // buffer to prevent attack spamming
-        { 
-            postAttackTimer = 0; 
+        {
+            postAttackTimer = 0;
         }
+    }
+
+    public void SwitchState(int _newState) {
+        vultureStates[Mathf.Min((int)state, vultureStates.Length)].enabled = false;
+        vultureStates[Mathf.Min((int)state, _newState)].enabled = true;
     }
 }

@@ -1,16 +1,20 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class VultureStateClass : MonoBehaviour, IVultureState
 {
-    [SerializeField] private InputActionReference movement;
+    [SerializeField] protected InputActionReference movement;
     [SerializeField] protected float speed = 0;
 
     private GameObject _vulture;
     protected Rigidbody _rb;
     protected Vector2 _movementDirection;
     protected bool _jump, _duck, _attack;
+
+    public event Action<int> OnStateSwitch = (_newState) => { };
 
     public GameObject Vulture
     {
@@ -60,8 +64,9 @@ public class VultureStateClass : MonoBehaviour, IVultureState
         
         if (_rb != null)
         {
-            jump = Physics.Raycast(_rb.position, Vector3.down, out hit);
-            Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 60f);
+            jump = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f);
+            Debug.Log(jump);
+            Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 1f);
             _rb.velocity = new Vector3(_movementDirection.x * speed, _rb.velocity.y, _movementDirection.y * speed);
         }
     }
@@ -75,4 +80,9 @@ public class VultureStateClass : MonoBehaviour, IVultureState
     public virtual void DisableJumping() { return; }
 
     public virtual void Landing() { return; }
+
+    protected void ChildSwitchState(int _newState)  // used by child scripts to call parent event action
+    {
+        OnStateSwitch(_newState);
+    }
 }

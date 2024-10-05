@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class VultureGroundedState : VultureStateClass
 {
@@ -12,7 +14,9 @@ public class VultureGroundedState : VultureStateClass
         base.Start();
 
         initialSpeed = speed;
-        vultureBase = Vulture != null ? Vulture.transform.parent.gameObject : null;  // foot location of the vulture
+
+        // vulture's base location
+        vultureBase = Vulture != null && Vulture.transform.parent ? Vulture.transform.parent.gameObject : Vulture;
     }
 
     protected override void FixedUpdate()
@@ -27,6 +31,7 @@ public class VultureGroundedState : VultureStateClass
             Debug.Log("Ok");
             _rb.velocity = Vector3.zero;
             _rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+            ChildSwitchState((int)AnimalStates.Airborne);
         }
     }
 
