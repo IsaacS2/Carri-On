@@ -112,5 +112,7 @@ public class VultureStateMachine : MonoBehaviour
     public void SwitchState(int _newState) {
         vultureStates[Mathf.Min((int)state, vultureStates.Length)].enabled = false;
         vultureStates[Mathf.Min((int)state, _newState)].enabled = true;
+        //state = (AnimalStates)_newState;
+        Debug.Log("New State: " + state);
     }
 }

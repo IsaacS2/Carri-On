@@ -28,7 +28,6 @@ public class VultureObject : MonoBehaviour
         if (collision.gameObject.CompareTag("Platform"))
         {
             platformContact = true;
-            Debug.Log(platformContact);
         }
     }
 
@@ -37,7 +36,6 @@ public class VultureObject : MonoBehaviour
         if (collision.gameObject.CompareTag("Platform"))
         {
             platformContact = false;
-            Debug.Log(platformContact);
         }
     }
 }

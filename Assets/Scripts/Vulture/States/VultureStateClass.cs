@@ -7,12 +7,12 @@ using UnityEngine.InputSystem;
 public class VultureStateClass : MonoBehaviour, IVultureState
 {
     [SerializeField] protected InputActionReference movement;
-    [SerializeField] protected float speed = 0;
+    [SerializeField] protected float speed = 0, baseJumpPower, glideJumpPower;
 
     private GameObject _vulture;
     protected Rigidbody _rb;
     protected Vector2 _movementDirection;
-    protected bool _jump, _duck, _attack;
+    private bool _jump, _duck, _attack;
 
     public event Action<int> OnStateSwitch = (_newState) => { };
 
@@ -65,7 +65,6 @@ public class VultureStateClass : MonoBehaviour, IVultureState
         if (_rb != null)
         {
             jump = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f);
-            Debug.Log(jump);
             Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 1f);
             _rb.velocity = new Vector3(_movementDirection.x * speed, _rb.velocity.y, _movementDirection.y * speed);
         }

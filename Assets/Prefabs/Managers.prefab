@@ -108,7 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c392730474179a468c8760d511c04ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
   jump: {fileID: 408998808666962201, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
   duck: {fileID: -8137343503883007719, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
   attack: {fileID: -2104987860675221567, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
@@ -285,6 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a66280003c33ce8478b8e82177e96ff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
   speed: 5
 --- !u!114 &5267089362506456747
 MonoBehaviour:
@@ -298,6 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92f6b384832fd7c48bc3538dbb75fe76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
   speed: 0
 --- !u!114 &475499521120848363
 MonoBehaviour:
@@ -311,6 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12b7f1535f46a744c960ec0c77c44920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
   speed: 7
 --- !u!114 &394886680771344282
 MonoBehaviour:
@@ -324,6 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08990558439f1b148a2f43cab659833b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
   speed: 5
 --- !u!1 &6810602134860482222
 GameObject:
