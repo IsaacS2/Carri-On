@@ -28,9 +28,8 @@ public class VultureDuckingState : VultureStateClass
 
     public override void Jumping()
     {
-        if (jump && _rb != null)
+        if (isGrounded && _rb != null)
         {
-            Debug.Log("Ok");
             _rb.velocity = Vector3.zero;
             if (duck)
             {

@@ -38,4 +38,9 @@ public class VultureObject : MonoBehaviour
             platformContact = false;
         }
     }
+
+    public bool PlatformContact()
+    {
+        return platformContact;
+    }
 }

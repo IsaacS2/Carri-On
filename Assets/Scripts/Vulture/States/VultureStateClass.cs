@@ -10,9 +10,11 @@ public class VultureStateClass : MonoBehaviour, IVultureState
     [SerializeField] protected float speed = 0, baseJumpPower, glideJumpPower;
 
     private GameObject _vulture;
+    private bool _jump, _duck, _attack;
+
+    protected VultureObject vultObj;
     protected Rigidbody _rb;
     protected Vector2 _movementDirection;
-    private bool _jump, _duck, _attack;
 
     public event Action<int> OnStateSwitch = (_newState) => { };
 
@@ -22,7 +24,7 @@ public class VultureStateClass : MonoBehaviour, IVultureState
         set { _vulture = value; }
     }
 
-    public bool jump
+    public bool isGrounded
     {
         get { return _jump; }
         set { _jump = value; }
@@ -51,6 +53,8 @@ public class VultureStateClass : MonoBehaviour, IVultureState
         {
             _rb = Vulture.GetComponent<Rigidbody>();
         }
+
+        vultObj = Vulture.GetComponent<VultureObject>();
     }
 
     protected virtual void Update()
@@ -64,7 +68,9 @@ public class VultureStateClass : MonoBehaviour, IVultureState
         
         if (_rb != null)
         {
-            jump = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f);
+            isGrounded = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) && vultObj.PlatformContact();
+            /*Debug.Log("Raycast collision: " + Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) 
+                + " Platform collision: " + vultObj.PlatformContact());*/
             Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 1f);
             _rb.velocity = new Vector3(_movementDirection.x * speed, _rb.velocity.y, _movementDirection.y * speed);
         }

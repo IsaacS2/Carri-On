@@ -30,7 +30,7 @@ public class VultureStateMachine : MonoBehaviour
             }
         }
 
-        if (vulture == null) { Destroy(this); }  // no point in this state machine
+        if (vulture == null) { Destroy(this); }  // no point in this state machine without a vulture object
         else if (vulture.transform.parent && vulture.transform.parent.GetComponent<Rigidbody>()) { _rb = vulture.transform.parent.GetComponent<Rigidbody>(); }
         else if (vulture.GetComponent<Rigidbody>()) { _rb = vulture.GetComponent<Rigidbody>(); }
 
@@ -91,7 +91,7 @@ public class VultureStateMachine : MonoBehaviour
             ducking = false;
 
             if (state != AnimalStates.Grounded) { jumpTimer = 0; }
-            vultureStates[Mathf.Min((int)state, vultureStates.Length)].Jumping();
+            vultureStates[Mathf.Min((int)state, vultureStates.Length - 1)].Jumping();
         }
     }
 
@@ -101,7 +101,7 @@ public class VultureStateMachine : MonoBehaviour
         {
             Debug.Log("halt jump");
             jumpTimer = maxJumpTime;
-            vultureStates[Mathf.Min((int)state, vultureStates.Length)].DisableJumping();
+            vultureStates[Mathf.Min((int)state, vultureStates.Length - 1)].DisableJumping();
         }
     }
 
@@ -109,14 +109,14 @@ public class VultureStateMachine : MonoBehaviour
     {
         if (state != AnimalStates.Dying) {
             ducking = true;
-            vultureStates[Mathf.Min((int)state, vultureStates.Length)].Ducking(); 
+            vultureStates[Mathf.Min((int)state, vultureStates.Length - 1)].Ducking(); 
         }
     }
 
     public void HaltDuck()
     {
         if (state != AnimalStates.Dying && state != AnimalStates.Airborne) { 
-            vultureStates[Mathf.Min((int)state, vultureStates.Length)].DisableDucking(); 
+            vultureStates[Mathf.Min((int)state, vultureStates.Length - 1)].DisableDucking(); 
 
             if (ducking)
             {
@@ -134,8 +134,9 @@ public class VultureStateMachine : MonoBehaviour
     }
 
     public void SwitchState(int _newState) {
-        vultureStates[Mathf.Min((int)state, vultureStates.Length)].enabled = false;
-        vultureStates[Mathf.Min((int)state, _newState)].enabled = true;
-        //state = (AnimalStates)_newState;
+        vultureStates[Mathf.Min((int)state, vultureStates.Length - 1)].enabled = false;
+        vultureStates[Mathf.Min(_newState, vultureStates.Length - 1)].enabled = true;
+        state = (AnimalStates)_newState;
+        Debug.Log("new state: " + state);
     }
 }

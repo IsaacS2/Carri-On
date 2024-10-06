@@ -21,6 +21,15 @@ public class VultureGroundedState : VultureStateClass
         vultureBase = Vulture != null && Vulture.transform.parent ? Vulture.transform.parent.gameObject : Vulture;
     }
 
+    protected override void Update()
+    {
+        if (!isGrounded)
+        {
+            DisableDucking();
+            ChildSwitchState((int)AnimalStates.Airborne);
+        }
+    }
+
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -28,9 +37,8 @@ public class VultureGroundedState : VultureStateClass
 
     public override void Jumping()
     {
-        if (jump && _rb != null)
+        if (isGrounded && _rb != null)
         {
-            Debug.Log("Ok");
             _rb.velocity = Vector3.zero;
             if (duck)
             {

@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class VultureAirborneState : VultureStateClass
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void Update()
     {
-        
+        base.Update();
+
+        if (isGrounded)
+        {
+            ChildSwitchState((int)AnimalStates.Grounded);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void FixedUpdate()
     {
-        
+        base.FixedUpdate();
+    }
+
+    public override void Jumping()
+    {
+        ChildSwitchState((int)AnimalStates.Gliding);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IVultureState : IState
 {
-    bool jump { get; }
+    bool isGrounded { get; }
     bool duck { get; }
     bool attack { get; }
 
