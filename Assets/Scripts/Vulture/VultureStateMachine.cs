@@ -7,15 +7,16 @@ using System.Collections.Generic;
 public class VultureStateMachine : MonoBehaviour
 {
     [SerializeField] private VultureStateClass[] vultureStates;
-    [SerializeField] private float maxJumpTime, minAttackBuffer;
+    [SerializeField] private float maxJumpTime, minAttackBuffer, heldJumpInputPower;
     [SerializeField] private int maxJumps;
 
     private GameObject vulture;
+    private Rigidbody _rb;
     private AnimalStates state;
     private Vector2 movementDirection;
     private float jumpTimer, postAttackTimer;
     private int jumpsLeft;
-    private bool dieContact;
+    private bool dieContact, ducking;
 
     private void OnEnable()
     {
@@ -30,6 +31,8 @@ public class VultureStateMachine : MonoBehaviour
         }
 
         if (vulture == null) { Destroy(this); }  // no point in this state machine
+        else if (vulture.transform.parent && vulture.transform.parent.GetComponent<Rigidbody>()) { _rb = vulture.transform.parent.GetComponent<Rigidbody>(); }
+        else if (vulture.GetComponent<Rigidbody>()) { _rb = vulture.GetComponent<Rigidbody>(); }
 
         state = AnimalStates.Grounded;  // vulture starts on ground
 
@@ -61,7 +64,18 @@ public class VultureStateMachine : MonoBehaviour
 
     void Update()
     {
-        if (jumpTimer >= maxJumpTime) { }
+        if (jumpTimer < maxJumpTime) { 
+            jumpTimer += Time.deltaTime;
+            if (jumpTimer > maxJumpTime)
+            {
+                Debug.Log("halt Max jump");
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (jumpTimer < maxJumpTime && _rb) { _rb.velocity += Vector3.up * Time.fixedDeltaTime * heldJumpInputPower; }
     }
 
     public void SetMovementDirection(Vector2 _movementDirection)
@@ -74,11 +88,10 @@ public class VultureStateMachine : MonoBehaviour
         if (state != AnimalStates.Dying && jumpsLeft > 0)
         {
             jumpsLeft--;
-            vultureStates[Mathf.Min((int)state, vultureStates.Length)].Jumping();
+            ducking = false;
 
-            if (jumpsLeft > 0) {
-                jumpTimer = 0;
-            }
+            if (state != AnimalStates.Grounded) { jumpTimer = 0; }
+            vultureStates[Mathf.Min((int)state, vultureStates.Length)].Jumping();
         }
     }
 
@@ -86,6 +99,8 @@ public class VultureStateMachine : MonoBehaviour
     {
         if (state != AnimalStates.Dying && state != AnimalStates.Airborne && jumpTimer < maxJumpTime)
         {
+            Debug.Log("halt jump");
+            jumpTimer = maxJumpTime;
             vultureStates[Mathf.Min((int)state, vultureStates.Length)].DisableJumping();
         }
     }
@@ -93,12 +108,21 @@ public class VultureStateMachine : MonoBehaviour
     public void StartDuck()
     {
         if (state != AnimalStates.Dying) {
-            vultureStates[Mathf.Min((int)state, vultureStates.Length)].Ducking(); }
+            ducking = true;
+            vultureStates[Mathf.Min((int)state, vultureStates.Length)].Ducking(); 
+        }
     }
 
     public void HaltDuck()
     {
-        if (state != AnimalStates.Dying && state != AnimalStates.Airborne) { vultureStates[Mathf.Min((int)state, vultureStates.Length)].DisableDucking(); }
+        if (state != AnimalStates.Dying && state != AnimalStates.Airborne) { 
+            vultureStates[Mathf.Min((int)state, vultureStates.Length)].DisableDucking(); 
+
+            if (ducking)
+            {
+                jumpTimer = maxJumpTime;
+            }
+        }
     }
 
     public void Attack()
@@ -113,6 +137,5 @@ public class VultureStateMachine : MonoBehaviour
         vultureStates[Mathf.Min((int)state, vultureStates.Length)].enabled = false;
         vultureStates[Mathf.Min((int)state, _newState)].enabled = true;
         //state = (AnimalStates)_newState;
-        Debug.Log("New State: " + state);
     }
 }

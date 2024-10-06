@@ -816,6 +816,10 @@ PrefabInstance:
       propertyPath: maxJumps
       value: 99
       objectReference: {fileID: 0}
+    - target: {fileID: 7907901539280050430, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
+      propertyPath: heldJumpInputPower
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

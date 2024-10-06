@@ -76,11 +76,13 @@ public class VultureStateClass : MonoBehaviour, IVultureState
 
     public virtual void Jumping() { return; }
 
-    public virtual void DisableJumping() { return; }
+    public virtual void DisableJumping() {
+        Debug.Log("Jumping stopped");
+    }
 
     public virtual void Landing() { return; }
 
-    protected void ChildSwitchState(int _newState)  // used by child scripts to call parent event action
+    protected virtual void ChildSwitchState(int _newState)  // used by child scripts to call parent event action
     {
         OnStateSwitch(_newState);
     }
