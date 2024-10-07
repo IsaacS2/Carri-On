@@ -7,16 +7,16 @@ public class VultureAirborneState : VultureStateClass
     protected override void Update()
     {
         base.Update();
-
-        if (isGrounded)
-        {
-            ChildSwitchState((int)AnimalStates.Grounded);
-        }
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
+
+        if (isGrounded)
+        {
+            ChildSwitchState((int)AnimalStates.Grounded);
+        }
     }
 
     public override void Jumping()
