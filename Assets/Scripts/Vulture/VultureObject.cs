@@ -23,7 +23,7 @@ public class VultureObject : MonoBehaviour
         hasStateMachine = true;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Platform"))
         {

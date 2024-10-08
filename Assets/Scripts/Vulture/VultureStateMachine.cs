@@ -71,6 +71,10 @@ public class VultureStateMachine : MonoBehaviour
                 Debug.Log("halt Max jump");
             }
         }
+        if (jumpsLeft <= 0)
+        {
+            Debug.Log("No jumps left!");
+        }
     }
 
     private void FixedUpdate()
@@ -91,16 +95,18 @@ public class VultureStateMachine : MonoBehaviour
             ducking = false;
 
             if (state == AnimalStates.Grounded) { jumpTimer = 0; }
+            else { jumpTimer = maxJumpTime; }
             vultureStates[Mathf.Min((int)state, vultureStates.Length - 1)].Jumping();
         }
     }
 
     public void HaltJump()
     {
-        if (state != AnimalStates.Dying && state != AnimalStates.Airborne && jumpTimer < maxJumpTime)
+        if (state != AnimalStates.Dying)
         {
             Debug.Log("halt jump");
             jumpTimer = maxJumpTime;
+
             vultureStates[Mathf.Min((int)state, vultureStates.Length - 1)].DisableJumping();
         }
     }

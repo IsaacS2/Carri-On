@@ -47,7 +47,6 @@ public class VultureGroundedState : VultureStateClass
                 _rb.AddForce(Vector3.up * baseJumpPower, ForceMode.Impulse);
             }
             isGrounded = false;
-            //ChildSwitchState((int)AnimalStates.Airborne);
         }
     }
 

@@ -69,8 +69,8 @@ public class VultureStateClass : MonoBehaviour, IVultureState
         if (_rb != null)
         {
             isGrounded = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) && vultObj.PlatformContact();
-            /*Debug.Log("Raycast collision: " + Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) 
-                + " Platform collision: " + vultObj.PlatformContact());*/
+            Debug.Log("Raycast collision: " + Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f)
+                + " Platform collision: " + vultObj.PlatformContact());
             Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 1f);
             _rb.velocity = new Vector3(_movementDirection.x * speed, _rb.velocity.y, _movementDirection.y * speed);
         }
@@ -83,7 +83,6 @@ public class VultureStateClass : MonoBehaviour, IVultureState
     public virtual void Jumping() { return; }
 
     public virtual void DisableJumping() {
-        Debug.Log("Jumping stopped");
     }
 
     public virtual void Landing() { return; }
