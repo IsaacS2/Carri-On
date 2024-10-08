@@ -23,7 +23,8 @@ public class VultureGlidingState : VultureStateClass
         if (_rb != null)
         {
             Vector2 desiredVelocity = new Vector3(_movementDirection.x, _movementDirection.y) * speed;
-            float maxSpeedChange = maxAcceleration;
+            _velocity = new Vector2(_rb.velocity.x, _rb.velocity.z);
+            float maxSpeedChange = maxAcceleration * Time.fixedDeltaTime;
 
             isGrounded = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) && vultObj.PlatformContact();
             Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 1f);

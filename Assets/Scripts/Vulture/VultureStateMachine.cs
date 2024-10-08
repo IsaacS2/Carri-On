@@ -82,11 +82,6 @@ public class VultureStateMachine : MonoBehaviour
         if (jumpTimer < maxJumpTime && _rb) { _rb.velocity += Vector3.up * Time.fixedDeltaTime * heldJumpInputPower; }
     }
 
-    public void SetMovementDirection(Vector2 _movementDirection)
-    {
-        if (state != AnimalStates.Dying) { movementDirection = _movementDirection; }
-    }
-
     public void StartJump()
     {
         if (state != AnimalStates.Dying && jumpsLeft > 0)

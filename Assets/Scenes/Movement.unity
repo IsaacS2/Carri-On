@@ -741,6 +741,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 394886680771344282, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
+      propertyPath: speed
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 394886680771344282, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: movement
       value: 
       objectReference: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
@@ -766,7 +770,7 @@ PrefabInstance:
       objectReference: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
     - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: maxAcceleration
-      value: 0.2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 684600039923336373, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: m_LocalPosition.x
@@ -818,7 +822,7 @@ PrefabInstance:
       objectReference: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
     - target: {fileID: 6549654606805938108, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: speed
-      value: 5
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 6549654606805938108, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: movement

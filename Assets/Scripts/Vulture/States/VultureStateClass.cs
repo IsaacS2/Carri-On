@@ -72,7 +72,11 @@ public class VultureStateClass : MonoBehaviour, IVultureState
             Debug.Log("Raycast collision: " + Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f)
                 + " Platform collision: " + vultObj.PlatformContact());
             Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 1f);
-            _rb.velocity = new Vector3(_movementDirection.x * speed, _rb.velocity.y, _movementDirection.y * speed);
+            if (_movementDirection != Vector2.zero)
+            {
+                _rb.transform.forward = (new Vector3(_movementDirection.x, 0, _movementDirection.y)).normalized;
+                _rb.velocity = new Vector3(_rb.transform.forward.x * speed * Time.fixedDeltaTime, _rb.velocity.y, _rb.transform.forward.z * speed * Time.fixedDeltaTime);
+            }
         }
     }
 
