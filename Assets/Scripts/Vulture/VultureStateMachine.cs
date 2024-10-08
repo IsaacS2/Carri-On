@@ -90,7 +90,7 @@ public class VultureStateMachine : MonoBehaviour
             jumpsLeft--;
             ducking = false;
 
-            if (state != AnimalStates.Grounded) { jumpTimer = 0; }
+            if (state == AnimalStates.Grounded) { jumpTimer = 0; }
             vultureStates[Mathf.Min((int)state, vultureStates.Length - 1)].Jumping();
         }
     }
