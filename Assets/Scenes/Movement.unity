@@ -766,8 +766,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
-  speed: 75
-  baseJumpPower: 8
+  speed: 67.5
+  baseJumpPower: 10
 --- !u!1001 &4510344341164563931
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -786,7 +786,7 @@ PrefabInstance:
       objectReference: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
     - target: {fileID: 394886680771344282, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: baseJumpPower
-      value: 5.5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 394886680771344282, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: highJumpPower
@@ -879,6 +879,18 @@ PrefabInstance:
     - target: {fileID: 7907901539280050430, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: maxJumps
       value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 7907901539280050430, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
+      propertyPath: maxJumpTime
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7907901539280050430, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
+      propertyPath: fallMultiplier
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7907901539280050430, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
+      propertyPath: lowJumpMultiplier
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 7907901539280050430, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: heldJumpInputPower

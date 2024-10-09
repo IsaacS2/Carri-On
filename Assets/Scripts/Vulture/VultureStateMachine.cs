@@ -4,10 +4,14 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
 
+//
+// Thanks to Board To Bits for the improved jumping code:
+// https://www.youtube.com/watch?v=7KiK0Aqtmzc&t=435s
+//
 public class VultureStateMachine : MonoBehaviour
 {
     [SerializeField] private VultureStateClass[] vultureStates;
-    [SerializeField] private float maxJumpTime, minAttackBuffer, heldJumpInputPower;
+    [SerializeField] private float maxJumpTime, minAttackBuffer, fallMultiplier, lowJumpMultiplier;
     [SerializeField] private int maxJumps;
 
     private GameObject vulture;
@@ -66,10 +70,6 @@ public class VultureStateMachine : MonoBehaviour
     {
         if (jumpTimer < maxJumpTime) { 
             jumpTimer += Time.deltaTime;
-            if (jumpTimer > maxJumpTime)
-            {
-                //Debug.Log("halt Max jump");
-            }
         }
         if (jumpsLeft <= 0)
         {
@@ -79,7 +79,17 @@ public class VultureStateMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (jumpTimer < maxJumpTime && _rb) { _rb.velocity += Vector3.up * Time.fixedDeltaTime * heldJumpInputPower; }
+        if (_rb && _rb.useGravity)
+        {
+            if (_rb.velocity.y < 0)
+            {
+                _rb.velocity += Vector3.up * Physics.gravity.y * Time.fixedDeltaTime * (fallMultiplier - 1);
+            }
+            else if (_rb.velocity.y > 0 && jumpTimer >= maxJumpTime) 
+            { 
+                _rb.velocity += Vector3.up * Physics.gravity.y * Time.fixedDeltaTime * (lowJumpMultiplier - 1); 
+            }
+        }
     }
 
     public void StartJump()
