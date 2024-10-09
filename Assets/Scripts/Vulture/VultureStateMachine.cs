@@ -68,12 +68,12 @@ public class VultureStateMachine : MonoBehaviour
             jumpTimer += Time.deltaTime;
             if (jumpTimer > maxJumpTime)
             {
-                Debug.Log("halt Max jump");
+                //Debug.Log("halt Max jump");
             }
         }
         if (jumpsLeft <= 0)
         {
-            Debug.Log("No jumps left!");
+            //Debug.Log("No jumps left!");
         }
     }
 
@@ -99,7 +99,6 @@ public class VultureStateMachine : MonoBehaviour
     {
         if (state != AnimalStates.Dying)
         {
-            Debug.Log("halt jump");
             jumpTimer = maxJumpTime;
 
             vultureStates[Mathf.Min((int)state, vultureStates.Length - 1)].DisableJumping();
