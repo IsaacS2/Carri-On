@@ -6,7 +6,6 @@ public class VultureSlamState : VultureStateClass
 {
     [SerializeField] private float beakSlamForce;
 
-
     private void OnEnable()
     {
         if (_rb != null)

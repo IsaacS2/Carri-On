@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class VultureStateClass : MonoBehaviour, IVultureState
 {
     [SerializeField] protected InputActionReference movement;
-    [SerializeField] protected float speed = 0, baseJumpPower, glideJumpPower;
+    [SerializeField] protected float speed = 0, baseJumpPower;
 
     private GameObject _vulture;
     private bool _jump, _duck, _attack;

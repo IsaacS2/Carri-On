@@ -6,8 +6,6 @@ using UnityEngine.InputSystem;
 
 public class VultureGroundedState : VultureStateClass
 {
-    [SerializeField] private float highJumpPower;
-
     private float initialSpeed;
     private GameObject vultureBase;
 
@@ -27,7 +25,6 @@ public class VultureGroundedState : VultureStateClass
 
         if (!isGrounded)
         {
-            DisableDucking();
             ChildSwitchState((int)AnimalStates.Airborne);
         }
     }
@@ -37,15 +34,7 @@ public class VultureGroundedState : VultureStateClass
         if (isGrounded && _rb != null)
         {
             _rb.velocity = Vector3.zero;
-            if (duck)
-            {
-                DisableDucking();
-                _rb.AddForce(Vector3.up * highJumpPower, ForceMode.Impulse);
-            }
-            else
-            {
-                _rb.AddForce(Vector3.up * baseJumpPower, ForceMode.Impulse);
-            }
+            _rb.AddForce(Vector3.up * baseJumpPower, ForceMode.Impulse);
             isGrounded = false;
         }
     }
@@ -54,21 +43,7 @@ public class VultureGroundedState : VultureStateClass
     {
         if (vultureBase != null)
         {
-            duck = true;
-            vultureBase.transform.localScale = new Vector3(vultureBase.transform.localScale.x, 
-                vultureBase.transform.localScale.y * .5f, vultureBase.transform.localScale.z);
-            speed *= (.25f);
-        }
-    }
-
-    public override void DisableDucking()  // stop ducking
-    {
-        if (vultureBase != null && initialSpeed != speed)
-        {
-            duck = false;
-            vultureBase.transform.localScale = new Vector3(vultureBase.transform.localScale.x,
-                vultureBase.transform.localScale.y * 2, vultureBase.transform.localScale.z);
-            speed = initialSpeed;
+            ChildSwitchState((int)AnimalStates.Ducking);
         }
     }
 }
