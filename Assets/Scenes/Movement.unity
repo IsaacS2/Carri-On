@@ -821,8 +821,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
     - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
+      propertyPath: newGlide
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: glideForce
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
+      propertyPath: glideTurnSpeed
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: maxAcceleration
@@ -831,6 +839,10 @@ PrefabInstance:
     - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: glideDownwardForce
       value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
+      propertyPath: newGlideDownwardMultiplier
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 684600039923336373, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: m_LocalPosition.x
