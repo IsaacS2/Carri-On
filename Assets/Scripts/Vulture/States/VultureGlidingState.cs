@@ -60,7 +60,7 @@ public class VultureGlidingState : VultureStateClass
         }
     }
 
-    public override void DisableJumping()
+    public override void Jumping()
     {
         if (isGrounded)
         {
@@ -74,6 +74,13 @@ public class VultureGlidingState : VultureStateClass
 
     public override void Ducking()
     {
-        ChildSwitchState((int)AnimalStates.BeakSlam);
+        if (isGrounded)
+        {
+            ChildSwitchState((int)AnimalStates.Ducking);
+        }
+        else
+        {
+            ChildSwitchState((int)AnimalStates.BeakSlam);
+        }
     }
 }

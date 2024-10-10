@@ -41,9 +41,17 @@ public class VultureGroundedState : VultureStateClass
 
     public override void Ducking()  // begin ducking
     {
-        if (vultureBase != null)
+        if (vultureBase != null && isGrounded)
         {
-            ChildSwitchState((int)AnimalStates.Ducking);
+            if (_movementDirection != Vector2.zero)
+            {
+                ChildSwitchState((int)AnimalStates.Sliding);
+
+            }
+            else
+            {
+                ChildSwitchState((int)AnimalStates.Ducking);
+            }
         }
     }
 }
