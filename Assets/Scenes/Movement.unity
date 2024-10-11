@@ -243,7 +243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 786951188}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -767,7 +767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
   speed: 67.5
-  baseJumpPower: 12
+  baseJumpPower: 13
 --- !u!114 &1734140603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -784,6 +784,26 @@ MonoBehaviour:
   speed: 550
   baseJumpPower: 0
   slideDuration: 0.4
+--- !u!114 &1734140611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734140588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a080592f2dfa742803ec402fe0a85f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
+  speed: 1000
+  baseJumpPower: 0
+  soarTurnSpeed: 1.5
+  maxRotation: 45
+  rotationSpeedExp: 1.05
+  expCoefficient: 3
+  maxSoarTime: 0.4
 --- !u!1001 &4510344341164563931
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -802,7 +822,7 @@ PrefabInstance:
       objectReference: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
     - target: {fileID: 394886680771344282, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: baseJumpPower
-      value: 8
+      value: 8.25
       objectReference: {fileID: 0}
     - target: {fileID: 394886680771344282, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: highJumpPower
@@ -814,7 +834,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: speed
-      value: 450
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: movement
@@ -830,7 +850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: glideTurnSpeed
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: maxAcceleration
@@ -842,7 +862,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 475499521120848363, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: newGlideDownwardMultiplier
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 684600039923336373, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: m_LocalPosition.x
@@ -926,7 +946,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7907901539280050430, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: vultureStates.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7907901539280050430, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       propertyPath: vultureStates.Array.data[4]
@@ -940,6 +960,10 @@ PrefabInstance:
       propertyPath: vultureStates.Array.data[6]
       value: 
       objectReference: {fileID: 1734140603}
+    - target: {fileID: 7907901539280050430, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
+      propertyPath: vultureStates.Array.data[7]
+      value: 
+      objectReference: {fileID: 1734140611}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -953,6 +977,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5338142975693753882, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1734140603}
+    - targetCorrespondingSourceObject: {fileID: 5338142975693753882, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1734140611}
   m_SourcePrefab: {fileID: 100100000, guid: 3702cafdd5ac80b4e97f46bd5b811f16, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

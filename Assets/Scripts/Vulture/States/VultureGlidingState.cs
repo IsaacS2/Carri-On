@@ -12,7 +12,7 @@ public class VultureGlidingState : VultureStateClass
     [SerializeField] private bool newGlide;
 
     private Vector3 previousForwardDirection;
-    private Vector2 lastMovementDirection, unNormalizedDirection;
+    private Vector2 lastMovementDirection;
     private float turnPercent;
 
     private void OnEnable()
@@ -28,6 +28,7 @@ public class VultureGlidingState : VultureStateClass
     protected override void Start()
     {
         base.Start();
+
         RestartGlideState();
     }
 
@@ -47,7 +48,7 @@ public class VultureGlidingState : VultureStateClass
 
             if (newGlide)
             {
-                if (_movementDirection != Vector2.zero)
+                if (_movementDirection != Vector2.zero && new Vector3(_movementDirection.x, 0, _movementDirection.y) != _rb.transform.forward * -1)
                 {
                     if (_movementDirection != lastMovementDirection)
                     {
@@ -59,7 +60,6 @@ public class VultureGlidingState : VultureStateClass
 
                 Vector2 newDirection = Vector2.Lerp(new Vector2(previousForwardDirection.x, previousForwardDirection.z),
                     lastMovementDirection, turnPercent);
-                Debug.Log(newDirection);
                 _rb.transform.forward = new Vector3(newDirection.x, 0, newDirection.y);
 
                 _rb.velocity = new Vector3(_rb.transform.forward.x * speed * Time.fixedDeltaTime,
@@ -87,7 +87,7 @@ public class VultureGlidingState : VultureStateClass
     {
         if (isGrounded)
         {
-            ChildSwitchState((int)AnimalStates.Grounded);
+            ChildSwitchState((int)AnimalStates.Soaring);
         }
         else
         {
@@ -115,6 +115,7 @@ public class VultureGlidingState : VultureStateClass
             _rb.useGravity = false;
             previousForwardDirection = _rb.transform.forward;
             lastMovementDirection = new Vector2(_rb.transform.forward.x, _rb.transform.forward.z);
+            turnPercent = 0;
         }
     }
 }

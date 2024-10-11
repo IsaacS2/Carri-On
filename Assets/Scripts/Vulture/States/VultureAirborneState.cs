@@ -25,6 +25,11 @@ public class VultureAirborneState : VultureStateClass
             isGrounded = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) && vultObj.PlatformContact();
             Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 1f);
 
+            if (_movementDirection != Vector2.zero)
+            {
+                _rb.transform.forward = (new Vector3(_movementDirection.x, 0, _movementDirection.y)).normalized;
+            }
+
             _velocity.x = Mathf.MoveTowards(_velocity.x, desiredVelocity.x, maxSpeedChange);
             _velocity.y = Mathf.MoveTowards(_velocity.y, desiredVelocity.y, maxSpeedChange);
             _rb.velocity = new Vector3(_velocity.x, _rb.velocity.y, _velocity.y);

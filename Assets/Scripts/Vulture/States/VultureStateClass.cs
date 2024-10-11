@@ -87,8 +87,7 @@ public class VultureStateClass : MonoBehaviour, IVultureState
 
     public virtual void Jumping() { return; }
 
-    public virtual void DisableJumping() {
-    }
+    public virtual void DisableJumping() { return; }
 
     public virtual void Landing() { return; }
 

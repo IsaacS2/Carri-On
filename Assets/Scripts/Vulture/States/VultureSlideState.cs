@@ -7,18 +7,11 @@ public class VultureSlideState : VultureStateClass
     [SerializeField] private float slideDuration;
 
     private float slideTime;
-    private bool glidePrepped;
+    private bool glidePrepped, duckPrepped;
 
     private void OnEnable()
     {
-        if (_rb != null)
-        {
-            _rb.velocity = Vector3.zero;
-            _rb.useGravity = false;
-        }
-
-        glidePrepped = true;
-        slideTime = 0;
+        RestartSlideState();
     }
 
     private void OnDisable()
@@ -30,27 +23,32 @@ public class VultureSlideState : VultureStateClass
     {
         base.Start();
 
-        if (_rb != null)
-        {
-            _rb.velocity = Vector3.zero;
-            _rb.useGravity = false;
-        }
+        RestartSlideState();
     }
 
     // Update is called once per frame
     protected override void Update()
     {
+        base.Update();
         slideTime += Time.deltaTime;
     }
 
     protected override void FixedUpdate()
     {
+        RaycastHit hit;
+
+        if (_rb != null)
+        {
+            isGrounded = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) && vultObj.PlatformContact();
+        }
+
         _rb.velocity = new Vector3(_rb.transform.forward.x * speed * Time.fixedDeltaTime, 
             0, _rb.transform.forward.z * speed * Time.fixedDeltaTime);
 
         if (slideTime > slideDuration)
         {
-            if (glidePrepped)  // switching straight into a glide
+            if (!duckPrepped && _movementDirection != Vector2.zero
+                && _movementDirection != new Vector2(_rb.transform.forward.x, _rb.transform.forward.z) * -1)  // switching straight into a glide
             {
                 ChildSwitchState((int)AnimalStates.Gliding);
             }
@@ -58,7 +56,13 @@ public class VultureSlideState : VultureStateClass
             {
                 if (isGrounded)
                 {
-                    ChildSwitchState((int)AnimalStates.Grounded);
+                    if (duckPrepped)
+                    {
+                        ChildSwitchState((int)AnimalStates.Ducking);
+                    }
+                    else {
+                        ChildSwitchState((int)AnimalStates.Grounded);
+                    }
                 }
                 else
                 {
@@ -68,8 +72,26 @@ public class VultureSlideState : VultureStateClass
         }
     }
 
+    public override void Jumping()
+    {
+        ChildSwitchState((int)AnimalStates.Soaring);
+    }
+
     public override void DisableDucking()
     {
+        duckPrepped = false;
         glidePrepped = false;
+    }
+
+    private void RestartSlideState()
+    {
+        if (_rb != null)
+        {
+            _rb.velocity = Vector3.zero;
+            _rb.useGravity = false;
+        }
+
+        glidePrepped = duckPrepped = true;
+        slideTime = 0;
     }
 }
