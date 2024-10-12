@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class VultureStateClass : MonoBehaviour, IVultureState
 {
     [SerializeField] protected InputActionReference movement;
-    [SerializeField] protected float speed = 0, baseJumpPower, raycastExtension = 0.2f;
+    [SerializeField] protected float speed = 0, baseJumpPower;
     [SerializeField] protected bool newMovement = false;
 
     private GameObject _vulture;
@@ -17,6 +17,7 @@ public class VultureStateClass : MonoBehaviour, IVultureState
     protected Rigidbody _rb;
     protected Vector3 _velocity;
     protected Vector2 _movementDirection;
+    protected int stepsSinceLastGrounded;
     protected bool isJumping;
 
     public event Action<int> OnStateSwitch = (_newState) => { };
@@ -108,8 +109,17 @@ public class VultureStateClass : MonoBehaviour, IVultureState
 
     protected virtual void UpdateState()
     {
-        if (_rb) {
+        stepsSinceLastGrounded += 1;
+
+        if (_rb)
+        {
             _velocity = _rb.velocity;
+        }
+
+        if (vultObj && (isGrounded || vultObj.SnapToGround(ref _velocity, stepsSinceLastGrounded)))
+        {
+            Debug.Log("Yes");
+            stepsSinceLastGrounded = 0;
         }
     }
 

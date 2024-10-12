@@ -12,7 +12,9 @@ public class VultureGroundedState : VultureStateClass
 
     private void OnEnable()
     {
+        isGrounded = true;
         isJumping = false;
+        stepsSinceLastGrounded = 0;
     }
 
     protected override void Start()
@@ -29,7 +31,7 @@ public class VultureGroundedState : VultureStateClass
     {
         base.FixedUpdate();
 
-        if (!isGrounded)
+        if (!isGrounded && stepsSinceLastGrounded > 1)
         {
             ChildSwitchState((int)AnimalStates.Airborne);
         }

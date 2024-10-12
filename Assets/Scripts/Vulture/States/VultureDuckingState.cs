@@ -21,7 +21,9 @@ public class VultureDuckingState : VultureStateClass
             vultureBase.transform.localScale = new Vector3(initialScale.x, initialScale.y * .5f, initialScale.z);
         }
 
+        isGrounded = true;
         isJumping = false;
+        stepsSinceLastGrounded = 0;
     }
 
     private void OnDisable()
@@ -48,7 +50,7 @@ public class VultureDuckingState : VultureStateClass
     {
         base.FixedUpdate();
 
-        if (!isGrounded)
+        if (!isGrounded && stepsSinceLastGrounded > 1)
         {
             ChildSwitchState((int)AnimalStates.Airborne);
         }

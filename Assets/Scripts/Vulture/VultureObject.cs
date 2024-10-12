@@ -6,9 +6,12 @@ using UnityEngine;
 public class VultureObject : MonoBehaviour
 {
     [SerializeField, Range(0f, 90f)] float maxGroundAngle = 25f;
-
-    Vector3 contactNormal;
-    float minGroundDotProduct;
+    [SerializeField, Min(0f)] private float probeDistance = 1.5f;
+    [SerializeField] LayerMask probeMask = -1;
+    [SerializeField] private Rigidbody _rb;
+    
+    private Vector3 contactNormal;
+    private float minGroundDotProduct;
 
     private bool hasStateMachine, platformContact;
 
@@ -60,9 +63,10 @@ public class VultureObject : MonoBehaviour
         }
     }
 
-    void OnValidate()
+    public float OnValidate()
     {
         minGroundDotProduct = Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad);
+        return minGroundDotProduct;
     }
 
     public bool GetStateMachine()
@@ -78,5 +82,34 @@ public class VultureObject : MonoBehaviour
     public Vector3 GetContactNormal()
     {
         return contactNormal;
+    }
+
+    public bool SnapToGround(ref Vector3 velocity, int _stepsSinceLastGrounded)
+    {
+        if (_stepsSinceLastGrounded > 1)
+        {
+            Debug.Log("wfs");
+            return false;
+        }
+        //Debug.Log(_rb.position);
+        if (!Physics.Raycast(_rb.position, Vector3.down, out RaycastHit hit, probeDistance, probeMask))
+        {
+            return false;
+        }
+        if (hit.normal.y < minGroundDotProduct)
+        {
+            return false;
+        }
+
+        contactNormal = hit.normal;
+        float speed = velocity.magnitude;
+        float dot = Vector3.Dot(velocity, hit.normal);
+
+        if (dot > 0f)
+        {
+            velocity = (velocity - hit.normal * dot).normalized * speed;
+        }
+
+        return true;
     }
 }
