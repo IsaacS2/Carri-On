@@ -15,8 +15,9 @@ public class VultureStateClass : MonoBehaviour, IVultureState
 
     protected VultureObject vultObj;
     protected Rigidbody _rb;
-    protected Vector2 _movementDirection;
     protected Vector3 _velocity;
+    protected Vector2 _movementDirection;
+    protected bool isJumping;
 
     public event Action<int> OnStateSwitch = (_newState) => { };
 
@@ -70,7 +71,7 @@ public class VultureStateClass : MonoBehaviour, IVultureState
                 _rb.transform.forward = (new Vector3(_movementDirection.x, 0, _movementDirection.y)).normalized;
             }
 
-            if (!newMovement) {
+            if (!newMovement || isJumping) {
                 _rb.velocity = new Vector3(_movementDirection.x * speed * Time.fixedDeltaTime, _rb.velocity.y, _movementDirection.y * speed * Time.fixedDeltaTime);
             }
             else

@@ -20,6 +20,8 @@ public class VultureDuckingState : VultureStateClass
         {
             vultureBase.transform.localScale = new Vector3(initialScale.x, initialScale.y * .5f, initialScale.z);
         }
+
+        isJumping = false;
     }
 
     private void OnDisable()
@@ -59,6 +61,7 @@ public class VultureDuckingState : VultureStateClass
             _rb.velocity = Vector3.zero;
             _rb.AddForce(Vector3.up * baseJumpPower, ForceMode.Impulse);
             isGrounded = false;
+            isJumping = true;
         }
     }
     

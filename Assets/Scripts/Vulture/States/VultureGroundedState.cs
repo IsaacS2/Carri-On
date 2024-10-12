@@ -6,8 +6,14 @@ using UnityEngine.InputSystem;
 
 public class VultureGroundedState : VultureStateClass
 {
-    private float initialSpeed;
     private GameObject vultureBase;
+    private float initialSpeed;
+    private bool jumping;
+
+    private void OnEnable()
+    {
+        isJumping = false;
+    }
 
     protected override void Start()
     {
@@ -31,13 +37,11 @@ public class VultureGroundedState : VultureStateClass
 
     public override void Jumping()
     {
-        if (isGrounded)
-        {
-            if (_rb) {
-                _rb.velocity = Vector3.zero;
-                _rb.AddForce(Vector3.up * baseJumpPower, ForceMode.Impulse);
-                isGrounded = false;
-            }
+        if (_rb) {
+            _rb.velocity = _velocity = Vector3.zero;
+            _rb.AddForce(Vector3.up * baseJumpPower, ForceMode.Impulse);
+            isGrounded = false;
+            isJumping = true;
         }
     }
 
