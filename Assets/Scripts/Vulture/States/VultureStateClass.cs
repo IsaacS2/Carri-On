@@ -7,7 +7,8 @@ using UnityEngine.InputSystem;
 public class VultureStateClass : MonoBehaviour, IVultureState
 {
     [SerializeField] protected InputActionReference movement;
-    [SerializeField] protected float speed = 0, baseJumpPower;
+    [SerializeField] protected float speed = 0, baseJumpPower, raycastExtension = 0.2f;
+    [SerializeField] protected bool newMovement = false;
 
     private GameObject _vulture;
     private bool _jump, _duck, _attack;
@@ -15,6 +16,7 @@ public class VultureStateClass : MonoBehaviour, IVultureState
     protected VultureObject vultObj;
     protected Rigidbody _rb;
     protected Vector2 _movementDirection;
+    protected Vector3 _velocity;
 
     public event Action<int> OnStateSwitch = (_newState) => { };
 
@@ -28,18 +30,6 @@ public class VultureStateClass : MonoBehaviour, IVultureState
     {
         get { return _jump; }
         set { _jump = value; }
-    }
-
-    public bool duck
-    {
-        get { return _duck; }
-        set { _duck = value; }
-    }
-
-    public bool attack
-    {
-        get { return _attack; }
-        set { _attack = value; }
     }
 
     protected virtual void Start()
@@ -64,12 +54,15 @@ public class VultureStateClass : MonoBehaviour, IVultureState
 
     protected virtual void FixedUpdate()
     {
-        RaycastHit hit;
-        
+        UpdateState();
+        AdjustVelocity();
+        //RaycastHit hit;
+
         if (_rb != null)
         {
-            isGrounded = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) && vultObj.PlatformContact();
-            /*Debug.Log("Raycast collision: " + Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f)
+            isGrounded = vultObj.PlatformContact();
+            /*isGrounded = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) && vultObj.PlatformContact();
+            Debug.Log("Raycast collision: " + Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f)
                 + " Platform collision: " + vultObj.PlatformContact());
             Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 1f);*/
             if (_movementDirection != Vector2.zero)
@@ -77,7 +70,13 @@ public class VultureStateClass : MonoBehaviour, IVultureState
                 _rb.transform.forward = (new Vector3(_movementDirection.x, 0, _movementDirection.y)).normalized;
             }
 
-            _rb.velocity = new Vector3(_movementDirection.x * speed * Time.fixedDeltaTime, _rb.velocity.y, _movementDirection.y * speed * Time.fixedDeltaTime);
+            if (!newMovement) {
+                _rb.velocity = new Vector3(_movementDirection.x * speed * Time.fixedDeltaTime, _rb.velocity.y, _movementDirection.y * speed * Time.fixedDeltaTime);
+            }
+            else
+            {
+                _rb.velocity = _velocity;
+            }
         }
     }
 
@@ -94,5 +93,37 @@ public class VultureStateClass : MonoBehaviour, IVultureState
     protected virtual void ChildSwitchState(int _newState)  // used by child scripts to call parent event action
     {
         OnStateSwitch(_newState);
+    }
+
+
+    Vector3 ProjectOnContactPlane(Vector3 vector)
+    {
+        if (vultObj) {
+            Vector3 contactNorm = vultObj.GetContactNormal();
+            return vector - vultObj.GetContactNormal() * Vector3.Dot(vector, contactNorm);
+        }
+        return Vector3.up;
+    }
+
+    protected virtual void UpdateState()
+    {
+        if (_rb) {
+            _velocity = _rb.velocity;
+        }
+    }
+
+    protected virtual void AdjustVelocity()
+    {
+        if (_rb)
+        {
+            Vector3 xAxis = ProjectOnContactPlane(Vector3.right).normalized;
+            Vector3 zAxis = ProjectOnContactPlane(Vector3.forward).normalized;
+
+            float currentX = Vector3.Dot(_velocity, xAxis);
+            float currentZ = Vector3.Dot(_velocity, zAxis);
+
+            _velocity += (xAxis * ((_movementDirection.x * speed * Time.fixedDeltaTime) - currentX)) 
+                + (zAxis * ((_movementDirection.y * speed * Time.fixedDeltaTime) - currentZ));
+        }
     }
 }

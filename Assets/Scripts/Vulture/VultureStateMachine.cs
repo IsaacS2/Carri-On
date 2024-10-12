@@ -63,7 +63,6 @@ public class VultureStateMachine : MonoBehaviour
     {
         postAttackTimer = minAttackBuffer;
         jumpTimer = maxJumpTime;
-        jumpsLeft = maxJumps;
     }
 
     void Update()
@@ -94,9 +93,9 @@ public class VultureStateMachine : MonoBehaviour
 
     public void StartJump()
     {
-        if (state != AnimalStates.Dying && jumpsLeft > 0)
+        if (state != AnimalStates.Dying)
         {
-            jumpsLeft--;
+            //jumpsLeft--;
             ducking = false;
 
             if (state == AnimalStates.Grounded) { jumpTimer = 0; }

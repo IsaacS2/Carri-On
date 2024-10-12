@@ -31,11 +31,13 @@ public class VultureGroundedState : VultureStateClass
 
     public override void Jumping()
     {
-        if (isGrounded && _rb != null)
+        if (isGrounded)
         {
-            _rb.velocity = Vector3.zero;
-            _rb.AddForce(Vector3.up * baseJumpPower, ForceMode.Impulse);
-            isGrounded = false;
+            if (_rb) {
+                _rb.velocity = Vector3.zero;
+                _rb.AddForce(Vector3.up * baseJumpPower, ForceMode.Impulse);
+                isGrounded = false;
+            }
         }
     }
 

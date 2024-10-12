@@ -5,7 +5,7 @@ using UnityEngine;
 public class VultureAirborneState : VultureStateClass
 {
     [SerializeField, Range(0f, 100f)] float maxAcceleration = 4f;
-    Vector2 _velocity;
+    Vector2 _XZvelocity;
 
     protected override void Update()
     {
@@ -14,25 +14,22 @@ public class VultureAirborneState : VultureStateClass
 
     protected override void FixedUpdate()
     {
-        RaycastHit hit;
-
         if (_rb != null)
         {
             Vector2 desiredVelocity = new Vector3(_movementDirection.x, _movementDirection.y) * speed;
-            _velocity = new Vector2(_rb.velocity.x, _rb.velocity.z);
+            _XZvelocity = new Vector2(_rb.velocity.x, _rb.velocity.z);
             float maxSpeedChange = maxAcceleration * Time.fixedDeltaTime;
 
-            isGrounded = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) && vultObj.PlatformContact();
-            Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 1f);
+            isGrounded = vultObj.PlatformContact();
 
             if (_movementDirection != Vector2.zero)
             {
                 _rb.transform.forward = (new Vector3(_movementDirection.x, 0, _movementDirection.y)).normalized;
             }
 
-            _velocity.x = Mathf.MoveTowards(_velocity.x, desiredVelocity.x, maxSpeedChange);
-            _velocity.y = Mathf.MoveTowards(_velocity.y, desiredVelocity.y, maxSpeedChange);
-            _rb.velocity = new Vector3(_velocity.x, _rb.velocity.y, _velocity.y);
+            _XZvelocity.x = Mathf.MoveTowards(_XZvelocity.x, desiredVelocity.x, maxSpeedChange);
+            _XZvelocity.y = Mathf.MoveTowards(_XZvelocity.y, desiredVelocity.y, maxSpeedChange);
+            _rb.velocity = new Vector3(_XZvelocity.x, _rb.velocity.y, _XZvelocity.y);
         }
 
         if (isGrounded)

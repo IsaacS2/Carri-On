@@ -35,38 +35,37 @@ public class VultureSlideState : VultureStateClass
 
     protected override void FixedUpdate()
     {
-        RaycastHit hit;
-
         if (_rb != null)
         {
-            isGrounded = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) && vultObj.PlatformContact();
-        }
+            isGrounded = vultObj.PlatformContact();
 
-        _rb.velocity = new Vector3(_rb.transform.forward.x * speed * Time.fixedDeltaTime, 
+            _rb.velocity = new Vector3(_rb.transform.forward.x * speed * Time.fixedDeltaTime,
             0, _rb.transform.forward.z * speed * Time.fixedDeltaTime);
 
-        if (slideTime > slideDuration)
-        {
-            if (!duckPrepped && _movementDirection != Vector2.zero
-                && _movementDirection != new Vector2(_rb.transform.forward.x, _rb.transform.forward.z) * -1)  // switching straight into a glide
+            if (slideTime > slideDuration)
             {
-                ChildSwitchState((int)AnimalStates.Gliding);
-            }
-            else
-            {
-                if (isGrounded)
+                if (!duckPrepped && _movementDirection != Vector2.zero
+                    && _movementDirection != new Vector2(_rb.transform.forward.x, _rb.transform.forward.z) * -1)  // switching straight into a glide
                 {
-                    if (duckPrepped)
-                    {
-                        ChildSwitchState((int)AnimalStates.Ducking);
-                    }
-                    else {
-                        ChildSwitchState((int)AnimalStates.Grounded);
-                    }
+                    ChildSwitchState((int)AnimalStates.Gliding);
                 }
                 else
                 {
-                    ChildSwitchState((int)AnimalStates.Airborne);
+                    if (isGrounded)
+                    {
+                        if (duckPrepped)
+                        {
+                            ChildSwitchState((int)AnimalStates.Ducking);
+                        }
+                        else
+                        {
+                            ChildSwitchState((int)AnimalStates.Grounded);
+                        }
+                    }
+                    else
+                    {
+                        ChildSwitchState((int)AnimalStates.Airborne);
+                    }
                 }
             }
         }

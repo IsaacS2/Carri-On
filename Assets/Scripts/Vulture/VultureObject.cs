@@ -5,29 +5,31 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class VultureObject : MonoBehaviour
 {
+    [SerializeField, Range(0f, 90f)] float maxGroundAngle = 25f;
+
+    Vector3 contactNormal;
+    float minGroundDotProduct;
+
     private bool hasStateMachine, platformContact;
-    private Collider col;
 
-    private void OnEnable()
+    void Awake()
     {
-        col = GetComponent<Collider>();
+        OnValidate();
     }
 
-    public bool GetStateMachine()
+    private void OnCollisionEnter(Collision collision)
     {
-        return hasStateMachine;
-    }
-
-    public void SetStateMachine()
-    {
-        hasStateMachine = true;
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            EvaluateCollision(collision);
+        }
     }
 
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Platform"))
         {
-            platformContact = true;
+            EvaluateCollision(collision);
         }
     }
 
@@ -42,5 +44,39 @@ public class VultureObject : MonoBehaviour
     public bool PlatformContact()
     {
         return platformContact;
+    }
+
+    void EvaluateCollision(Collision collision)
+    {
+        for (int i = 0; i < collision.contactCount; i++)
+        {
+            Vector3 normal = collision.GetContact(i).normal;
+            platformContact |= normal.y >= minGroundDotProduct;
+
+            if (normal.y >= minGroundDotProduct)
+            {
+                contactNormal = normal;
+            }
+        }
+    }
+
+    void OnValidate()
+    {
+        minGroundDotProduct = Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad);
+    }
+
+    public bool GetStateMachine()
+    {
+        return hasStateMachine;
+    }
+
+    public void SetStateMachine()
+    {
+        hasStateMachine = true;
+    }
+
+    public Vector3 GetContactNormal()
+    {
+        return contactNormal;
     }
 }

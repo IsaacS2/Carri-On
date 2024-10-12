@@ -39,12 +39,9 @@ public class VultureGlidingState : VultureStateClass
 
     protected override void FixedUpdate()
     {
-        RaycastHit hit;
-
         if (_rb != null)
         {
-            isGrounded = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) && vultObj.PlatformContact();
-            Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 1f);
+            isGrounded = vultObj.PlatformContact();
 
             if (newGlide)
             {
