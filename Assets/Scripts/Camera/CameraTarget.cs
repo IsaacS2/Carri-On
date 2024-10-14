@@ -8,14 +8,4 @@ public class CameraTarget : MonoBehaviour
     {
         return newDirection;
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Trigger Accepted");
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Collision Accepted");
-    }
 }
