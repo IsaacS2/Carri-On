@@ -13,7 +13,7 @@ public class VultureObject : MonoBehaviour
     private Vector3 contactNormal;
     private float minGroundDotProduct;
 
-    private bool hasStateMachine, platformContact;
+    private bool hasStateMachine, platformContact, death;
 
     void Awake()
     {
@@ -25,6 +25,19 @@ public class VultureObject : MonoBehaviour
         if (collision.gameObject.CompareTag("Platform"))
         {
             EvaluateCollision(collision);
+        }
+
+        if (collision.gameObject.GetComponent<Murderer>())
+        {
+            death = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<Murderer>())
+        {
+            death = true;
         }
     }
 
@@ -88,10 +101,8 @@ public class VultureObject : MonoBehaviour
     {
         if (_stepsSinceLastGrounded > 1)
         {
-            Debug.Log("wfs");
             return false;
         }
-        //Debug.Log(_rb.position);
         if (!Physics.Raycast(_rb.position, Vector3.down, out RaycastHit hit, probeDistance, probeMask))
         {
             return false;
@@ -111,5 +122,10 @@ public class VultureObject : MonoBehaviour
         }
 
         return true;
+    }
+
+    public bool GetDeathStatus()
+    {
+        return death;
     }
 }

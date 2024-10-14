@@ -118,7 +118,6 @@ public class VultureStateClass : MonoBehaviour, IVultureState
 
         if (vultObj && (isGrounded || vultObj.SnapToGround(ref _velocity, stepsSinceLastGrounded)))
         {
-            Debug.Log("Yes");
             stepsSinceLastGrounded = 0;
         }
     }

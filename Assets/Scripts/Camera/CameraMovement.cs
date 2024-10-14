@@ -17,6 +17,8 @@ public class CameraMovement : MonoBehaviour
         if (target)
         {
             alteredStartingPosition = transform.position;
+
+            // negating any directional values that being tracked with the target (to keep the camera at the same position relative to the target)
             alteredStartingPosition.x *= (1 - directions.x);
             alteredStartingPosition.y *= (1 - directions.y);
             alteredStartingPosition.z *= (1 - directions.z);
@@ -28,12 +30,15 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         Vector3 newPos = target.position - positionDifference;
+
+        // negating any directional values that aren't being tracked (to avoid unneeded target position values)
         newPos.x *= directions.x;
         newPos.y *= directions.y;
         newPos.z *= directions.z;
 
         if (target)
         {
+            // move and rotate camera
             transform.position = Vector3.Lerp(transform.position, newPos + alteredStartingPosition, Time.deltaTime * moveRate);
             transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, eulerRotation, Time.deltaTime * moveRate);
         }
@@ -41,8 +46,8 @@ public class CameraMovement : MonoBehaviour
 
     public void SetNewMovement(Vector3 _targetPos, Vector3 _posDiff, Vector3 _direction, Vector3 _rotation)
     {
-        //TODO: fix
-        Debug.Log(_targetPos);
+        // set new target position, position difference between target and camera,
+        // camera following direction, and camera rotation
         directions = _direction;
         positionDifference = _posDiff != Vector3.zero ? _posDiff : positionDifference;
         unalteredStartingPos = _targetPos - positionDifference;

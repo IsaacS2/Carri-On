@@ -31,6 +31,7 @@ public class VultureStateMachine : MonoBehaviour
             // Find players without state machine assigned
             if (vultures[i].GetComponent<VultureObject>() && !vultures[i].GetComponent<VultureObject>().GetStateMachine()) {
                 vulture = vultures[i];
+                vulture.GetComponent<VultureObject>().SetStateMachine();
             }
         }
 
@@ -78,6 +79,8 @@ public class VultureStateMachine : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (vulture.GetComponent<VultureObject>().GetDeathStatus() && !dieContact) { Death(); }  // player's rigidbody has hit a killing object
+
         if (_rb && _rb.useGravity)
         {
             if (_rb.velocity.y < 0)
@@ -140,6 +143,12 @@ public class VultureStateMachine : MonoBehaviour
         {
             postAttackTimer = 0;
         }
+    }
+
+    public void Death()
+    {
+        dieContact = true;
+        SwitchState((int)AnimalStates.Dying);
     }
 
     public void SwitchState(int _newState) {

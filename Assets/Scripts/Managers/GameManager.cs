@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private int numLevelSegments;
+    [SerializeField] private int totalLevels;
 
+    private int[] collectedCarrions;
     public static GameManager Instance;
-
-    private GameObject player;
-    private Vector3 currentCheckpointPosition;
 
     private void Awake()
     {
@@ -24,5 +22,19 @@ public class GameManager : MonoBehaviour
 
             DontDestroyOnLoad(Instance.gameObject);
         }
+
+        if (totalLevels > 0)
+        {
+            collectedCarrions = new int[totalLevels];
+        }
+        else
+        {
+            collectedCarrions = new int[1];
+        }
+    }
+
+    public void OnLevelComplete(int _levelIndex, int _carrionCollected)
+    {
+
     }
 }

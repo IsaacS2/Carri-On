@@ -230,6 +230,10 @@ GameObject:
   - component: {fileID: 5267089362506456747}
   - component: {fileID: 475499521120848363}
   - component: {fileID: 394886680771344282}
+  - component: {fileID: 4551254472299377393}
+  - component: {fileID: 5912829802625711833}
+  - component: {fileID: 4029469030694500557}
+  - component: {fileID: 6478575146516633559}
   m_Layer: 0
   m_Name: VultureStateMachine
   m_TagString: Untagged
@@ -269,9 +273,15 @@ MonoBehaviour:
   - {fileID: 475499521120848363}
   - {fileID: 6549654606805938108}
   - {fileID: 5267089362506456747}
-  maxJumpTime: 0.2
+  - {fileID: 4551254472299377393}
+  - {fileID: 5912829802625711833}
+  - {fileID: 4029469030694500557}
+  - {fileID: 6478575146516633559}
+  maxJumpTime: 0.4
   minAttackBuffer: 1.5
-  maxJumps: 2
+  fallMultiplier: 2.2
+  lowJumpMultiplier: 1.7
+  maxJumps: 99
 --- !u!114 &6549654606805938108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +296,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
   speed: 5
+  baseJumpPower: 0
+  newMovement: 0
+  maxAcceleration: 35
 --- !u!114 &5267089362506456747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +313,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
   speed: 0
+  baseJumpPower: 0
+  newMovement: 0
 --- !u!114 &475499521120848363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,7 +328,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
-  speed: 7
+  speed: 500
+  baseJumpPower: 0
+  newMovement: 0
+  glideDownwardForce: 2.5
+  glideTurnSpeed: 2
+  newGlideDownwardMultiplier: 30
+  newGlide: 1
 --- !u!114 &394886680771344282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,7 +348,80 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
-  speed: 5
+  speed: 250
+  baseJumpPower: 8.25
+  newMovement: 1
+--- !u!114 &4551254472299377393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338142975693753882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dba2bffe868bc04e9b5898afde75ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
+  speed: 0
+  baseJumpPower: 0
+  newMovement: 0
+  beakSlamForce: 120
+--- !u!114 &5912829802625711833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338142975693753882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 785a02fc896a77b42b2a377f2908fb1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
+  speed: 67.5
+  baseJumpPower: 13
+  newMovement: 1
+--- !u!114 &4029469030694500557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338142975693753882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0e9f6587f6662499dfee4de7f7d70f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
+  speed: 550
+  baseJumpPower: 0
+  newMovement: 0
+  slideDuration: 0.4
+--- !u!114 &6478575146516633559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338142975693753882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a080592f2dfa742803ec402fe0a85f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 7700154490340762945, guid: 668c2b1d4e31d744c8ff45867d0f6ccc, type: 3}
+  speed: 1000
+  baseJumpPower: 0
+  newMovement: 0
+  soarTurnSpeed: 1.5
+  maxRotation: 45
+  rotationSpeedExp: 1.05
+  expCoefficient: 3
+  maxSoarTime: 0.4
 --- !u!1 &6810602134860482222
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,16 +8,16 @@ public class InputManager : MonoBehaviour
 {
     [SerializeField] private InputActionReference pause;
 
-    //private PlayerControls _input;
+    private PlayerControls _input;
 
     private void Awake()
     {
-        /*_input = new PlayerControls();  // contains all player input maps
+        _input = new PlayerControls();  // contains all player input maps
 
         // player is not controllable at the start of the game
         _input.Vulture.Enable();
         _input.Universal.Disable();
-        _input.Menu.Disable();*/
+        _input.Menu.Enable();
     }
 
     private void OnEnable()
@@ -34,7 +34,7 @@ public class InputManager : MonoBehaviour
     {
         Debug.Log("Pause");
         // Switch input map control between vulture and menu for pausing
-        /*if (_input.Vulture.enabled)
+        if (_input.Vulture.enabled)
         {
             _input.Vulture.Disable();
             _input.Menu.Enable();
@@ -43,6 +43,6 @@ public class InputManager : MonoBehaviour
         {
             _input.Vulture.Enable();
             _input.Menu.Disable();
-        }*/
+        }
     }
 }
