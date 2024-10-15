@@ -19,7 +19,7 @@ public class CarrionSpawner : MonoBehaviour
             if (newCarrionScript)
             {
                 newCarrionScript.SetCarrionNum(carrionNum);
-                Debug.Log("Script Collected from carrion number " + newCarrionScript.GetCarrionNum());
+                //Debug.Log("Script Collected from carrion number " + newCarrionScript.GetCarrionNum());
             }
         }
 

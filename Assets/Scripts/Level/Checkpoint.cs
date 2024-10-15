@@ -28,8 +28,7 @@ public class Checkpoint : MonoBehaviour
 
             if (collectedItems)
             {
-                //Debug.Log("temp storage player found!");
-                Debug.Log("Collected carrions :" + collectedItems.GetCarrionObtained().Count);
+                //Debug.Log("Collected carrions :" + collectedItems.GetCarrionObtained().Count);
                 LevelManager.Instance.AddCarrions(collectedItems.GetCarrionObtained());
                 collectedItems.ClearCarrions();
             }

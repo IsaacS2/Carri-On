@@ -147,7 +147,7 @@ public class VultureStateMachine : MonoBehaviour
 
     public void Death()
     {
-        Debug.Log("Death cometh");
+        //Debug.Log("Death cometh");
         dieContact = true;
         SwitchState((int)AnimalStates.Dying);
     }
@@ -156,6 +156,6 @@ public class VultureStateMachine : MonoBehaviour
         vultureStates[Mathf.Min((int)state, vultureStates.Length - 1)].enabled = false;
         vultureStates[Mathf.Min(_newState, vultureStates.Length - 1)].enabled = true;
         state = (AnimalStates)_newState;
-        //Debug.Log("new state: " + state);
+        Debug.Log("new state: " + state);
     }
 }
