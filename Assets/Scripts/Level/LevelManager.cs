@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] checkpoints;
+    [SerializeField] private GameObject[] checkpoints, carrionSpawners;
     [SerializeField] private int currentLevelIndex;
 
     public static LevelManager Instance;
 
-    private bool[] checkpointsDisabled;  // keep track of enabled/disabled checkpoints
+    private bool[] checkpointsDisabled, carrionSpawnersDisabled;  // keep track of enabled/disabled checkpoints
     private GameObject player;
     private Vector3 currentCheckpointPosition;
     private int carrionCollected, carrionTotal;
@@ -25,16 +25,17 @@ public class LevelManager : MonoBehaviour
         Instance?.StartLevel();
 
         Instance.ResetCheckpoints();
-        Debug.Log("Level Manager Enabled Called");
+        Instance.ResetCarrionSpawners();
+        //Debug.Log("Level Manager Enabled Called");
 
         SceneManager.sceneLoaded += Instance.OnSceneLoaded;
     }
 
     void OnDisable()
     {
-        Debug.Log("OnDisable");
+        //Debug.Log("OnDisable");
         if (Instance == this) {
-            Debug.Log("OnDisable2");
+            //Debug.Log("OnDisable2");
             SceneManager.sceneLoaded -= Instance.OnSceneLoaded;
         }
     }
@@ -43,6 +44,7 @@ public class LevelManager : MonoBehaviour
     {
         Instance.RepositionPlayer();
         Instance.ResetCheckpoints();
+        Instance.ResetCarrionSpawners();
     }
 
     private void CreateNewLevelInstance(int _levelIndex = -1)
@@ -50,15 +52,15 @@ public class LevelManager : MonoBehaviour
         
         if (Instance != null && Instance != this)
         {
-            Debug.Log("currentCheckpointPosition before: " + Instance.currentCheckpointPosition);
-            Debug.Log("Intruder level manager object");
+            //Debug.Log("currentCheckpointPosition before: " + Instance.currentCheckpointPosition);
+            //Debug.Log("Intruder level manager object");
             Destroy(gameObject);
         }
 
         else
         {
             Instance = this;
-            Debug.Log("currentCheckpointPosition before: " + Instance.currentCheckpointPosition);
+            //Debug.Log("currentCheckpointPosition before: " + Instance.currentCheckpointPosition);
             DontDestroyOnLoad(Instance.gameObject);
 
             currentLevelIndex = _levelIndex <= -1 ? currentLevelIndex : _levelIndex;
@@ -74,16 +76,27 @@ public class LevelManager : MonoBehaviour
 
             checkpointsDisabled = new bool[checkpoints.Length];
 
+            // find all carrion spawners in the level and set index number for them
+            for (int i = 0; i < carrionSpawners.Length; i++)
+            {
+                if (carrionSpawners[i].GetComponent<CarrionSpawner>())
+                {
+                    carrionSpawners[i].GetComponent<CarrionSpawner>().SetCarrionNum(i);
+                }
+            }
+
+            carrionSpawnersDisabled = new bool[carrionSpawners.Length];
+
             player = GameObject.FindWithTag("Player");
             if (player && player.GetComponent<Rigidbody>()) {
-                Debug.Log("currentCheckpoint shouldn't be messed with here!");
+                //Debug.Log("currentCheckpoint shouldn't be messed with here!");
                 currentCheckpointPosition = player.GetComponent<Rigidbody>().position; 
             }
 
-            Debug.Log("Level Manager Awake Called");
+            //Debug.Log("Level Manager Awake Called");
         }
 
-        Debug.Log("currentCheckpointPosition after: " + Instance.currentCheckpointPosition);
+        //Debug.Log("currentCheckpointPosition after: " + Instance.currentCheckpointPosition);
     }
 
     private void LevelComplete()
@@ -95,7 +108,7 @@ public class LevelManager : MonoBehaviour
     {
         carrionCollected = 0;
 
-        carrionTotal = GameObject.FindGameObjectsWithTag("Carrion").Length;
+        carrionTotal = carrionSpawners.Length;
     }
 
     public void EndLevel()
@@ -112,7 +125,19 @@ public class LevelManager : MonoBehaviour
         Instance.checkpoints[_checkpointNum].SetActive(false);
         Instance.checkpointsDisabled[_checkpointNum] = true;
         Instance.currentCheckpointPosition = _newPosition;
-        Debug.Log("New checkpoint activated: " + Instance.currentCheckpointPosition);
+        //Debug.Log("New checkpoint activated: " + Instance.currentCheckpointPosition);
+    }
+
+    public void AddCarrions(List<int> _carrionNums)
+    {
+        // save each carrion collected and store it in level data
+        foreach (int num in _carrionNums)
+        {
+            Debug.Log("Adding carrrion from spawner number: " + num);
+            Instance.carrionSpawners[num].SetActive(false);
+            Instance.carrionSpawnersDisabled[num] = true;
+            Instance.carrionCollected += 1;
+        }
     }
 
     private void RepositionPlayer()
@@ -120,7 +145,7 @@ public class LevelManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
 
         if (player && player.GetComponent<Rigidbody>()) {
-            Debug.Log("Player found! Repositioning to..." + Instance.currentCheckpointPosition);
+            //Debug.Log("Player found! Repositioning to..." + Instance.currentCheckpointPosition);
             player.GetComponent<Rigidbody>().position = Instance.currentCheckpointPosition;
         }
     }
@@ -131,6 +156,16 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < Instance.checkpoints.Length; i++)
         {
             Instance.checkpoints[i].SetActive(!Instance.checkpointsDisabled[i]);
+        }
+    }
+
+    private void ResetCarrionSpawners()
+    {
+        // deactivate any checkpoints that were alrady activated beforehand
+        for (int i = 0; i < Instance.carrionSpawners.Length; i++)
+        {
+            //Debug.Log("Resetting carrrion spawner number: " + i);
+            Instance.carrionSpawners[i].SetActive(!Instance.carrionSpawnersDisabled[i]);
         }
     }
 }

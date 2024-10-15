@@ -23,7 +23,16 @@ public class Checkpoint : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             LevelManager.Instance.NewCheckpointHit(checkpointNum, newTransform.position);
-            Debug.Log("checkpoint!");
+            
+            TempLevelStorage collectedItems = other.gameObject.GetComponent<TempLevelStorage>();
+
+            if (collectedItems)
+            {
+                //Debug.Log("temp storage player found!");
+                Debug.Log("Collected carrions :" + collectedItems.GetCarrionObtained().Count);
+                LevelManager.Instance.AddCarrions(collectedItems.GetCarrionObtained());
+                collectedItems.ClearCarrions();
+            }
         }
     }
 }

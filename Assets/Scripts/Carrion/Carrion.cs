@@ -11,5 +11,8 @@ public class Carrion : MonoBehaviour
         carrionNum = _num;
     }
 
-
+    public int GetCarrionNum()
+    {
+        return carrionNum;
+    }
 }

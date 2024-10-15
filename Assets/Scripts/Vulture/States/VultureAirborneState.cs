@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VultureAirborneState : VultureStateClass
 {
-    [SerializeField, Range(0f, 100f)] float maxAcceleration = 4f;
+    [SerializeField, Range(0f, 100f)] float maxAcceleration = 4f, maxDownwardVelocity = 100f;  // limit acceleration and speed that player falls
     Vector2 _XZvelocity;
 
     protected override void Update()
@@ -29,7 +29,7 @@ public class VultureAirborneState : VultureStateClass
 
             _XZvelocity.x = Mathf.MoveTowards(_XZvelocity.x, desiredVelocity.x, maxSpeedChange);
             _XZvelocity.y = Mathf.MoveTowards(_XZvelocity.y, desiredVelocity.y, maxSpeedChange);
-            _rb.velocity = new Vector3(_XZvelocity.x, _rb.velocity.y, _XZvelocity.y);
+            _rb.velocity = new Vector3(_XZvelocity.x, Mathf.Max(_rb.velocity.y, -maxDownwardVelocity), _XZvelocity.y);
         }
 
         if (isGrounded)
