@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraMovement : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float moveRate;
 
     private Vector3 positionDifference, alteredStartingPosition, unalteredStartingPos, eulerRotation;
+    private bool resetCamera;
 
     private void Start()
     {
@@ -29,19 +31,7 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        Vector3 newPos = target.position - positionDifference;
-
-        // negating any directional values that aren't being tracked (to avoid unneeded target position values)
-        newPos.x *= directions.x;
-        newPos.y *= directions.y;
-        newPos.z *= directions.z;
-
-        if (target)
-        {
-            // move and rotate camera
-            transform.position = Vector3.Lerp(transform.position, newPos + alteredStartingPosition, Time.deltaTime * moveRate);
-            transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, eulerRotation, Time.deltaTime * moveRate);
-        }
+        MoveCamera(Time.deltaTime * moveRate);
     }
 
     public void SetNewMovement(Vector3 _targetPos, Vector3 _posDiff, Vector3 _direction, Vector3 _rotation)
@@ -57,6 +47,21 @@ public class CameraMovement : MonoBehaviour
         alteredStartingPosition.x *= (1 - directions.x);
         alteredStartingPosition.y *= (1 - directions.y);
         alteredStartingPosition.z *= (1 - directions.z);
+
+        Vector3 newPos = target.position - positionDifference;
+
+        // negating any directional values that aren't being tracked (to avoid unneeded target position values)
+        newPos.x *= directions.x;
+        newPos.y *= directions.y;
+        newPos.z *= directions.z;
+
+        if (!resetCamera)
+        {
+            // move and rotate camera
+            transform.position = Vector3.Lerp(transform.position, newPos + alteredStartingPosition, 1f);
+            transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, eulerRotation, 1f);
+            resetCamera = true;
+        }
     }
 
     public Vector3 GetStartPos()
@@ -72,5 +77,21 @@ public class CameraMovement : MonoBehaviour
     public Vector3 GetRotation()
     {
         return eulerRotation;
+    }
+
+    private void MoveCamera(float _moveRate)
+    {
+        Vector3 newPos = target.position - positionDifference;
+
+        // negating any directional values that aren't being tracked (to avoid unneeded target position values)
+        newPos.x *= directions.x;
+        newPos.y *= directions.y;
+        newPos.z *= directions.z;
+
+        if (target)
+        {
+            transform.position = Vector3.Lerp(transform.position, newPos + alteredStartingPosition, _moveRate);
+            transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, eulerRotation, _moveRate);
+        }
     }
 }

@@ -21,15 +21,15 @@ public class GameManager : MonoBehaviour
             Instance = this;
 
             DontDestroyOnLoad(Instance.gameObject);
-        }
 
-        if (totalLevels > 0)
-        {
-            collectedCarrions = new int[totalLevels];
-        }
-        else
-        {
-            collectedCarrions = new int[1];
+            if (totalLevels > 0)
+            {
+                collectedCarrions = new int[totalLevels];
+            }
+            else
+            {
+                collectedCarrions = new int[1];
+            }
         }
     }
 

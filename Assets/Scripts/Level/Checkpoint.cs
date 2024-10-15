@@ -6,19 +6,24 @@ public class Checkpoint : MonoBehaviour
 {
     private int checkpointNum;
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private Transform newTransform;
 
     public void SetCheckpointNum(int _num)
     {
         checkpointNum = _num;
+    }
+
+    public int GetCheckpointNum()
+    {
+        return checkpointNum;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            LevelManager.Instance.NewCheckpointHit(checkpointNum, newTransform.position);
+            Debug.Log("checkpoint!");
+        }
     }
 }
