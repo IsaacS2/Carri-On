@@ -38,7 +38,7 @@ public class VultureSlamState : VultureStateClass
 
     protected override void FixedUpdate()
     {
-        base.FixedUpdate();
+        isGrounded = vultObj.PlatformContact();
 
         // Beak Slam force applied
         if (_rb != null) {

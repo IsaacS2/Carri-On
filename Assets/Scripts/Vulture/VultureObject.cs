@@ -22,7 +22,8 @@ public class VultureObject : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("On platform: " + platformContact);
+        Debug.Log("platform contact: " + platformContact);
+        platformContact = false;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -69,7 +70,6 @@ public class VultureObject : MonoBehaviour
 
     void EvaluateCollision(Collision collision)
     {
-        platformContact = false;
         for (int i = 0; i < collision.contactCount; i++)
         {
             Vector3 normal = collision.GetContact(i).normal;
@@ -80,6 +80,7 @@ public class VultureObject : MonoBehaviour
                 contactNormal = normal;
             }
         }
+        Debug.Log(collision.contactCount);
     }
 
     public float OnValidate()

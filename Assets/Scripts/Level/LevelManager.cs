@@ -164,6 +164,7 @@ public class LevelManager : MonoBehaviour
         // deactivate any checkpoints that were alrady activated beforehand
         for (int i = 0; i < Instance.carrionSpawners.Length; i++)
         {
+            Instance.carrionSpawners[i].GetComponent<Collider>().enabled = true;
             //Debug.Log("Resetting carrrion spawner number: " + i);
             Instance.carrionSpawners[i].SetActive(!Instance.carrionSpawnersDisabled[i]);
         }
