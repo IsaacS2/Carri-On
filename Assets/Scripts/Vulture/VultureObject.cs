@@ -80,7 +80,6 @@ public class VultureObject : MonoBehaviour
                 contactNormal = normal;
             }
         }
-        Debug.Log(collision.contactCount);
     }
 
     public float OnValidate()

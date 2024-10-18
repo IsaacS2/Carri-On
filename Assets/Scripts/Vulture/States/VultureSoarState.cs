@@ -26,6 +26,11 @@ public class VultureSoarState : VultureStateClass
             _rb.useGravity = false;
             _rb.transform.forward = new Vector3(_rb.transform.forward.x, 0, _rb.transform.forward.z);
         }
+
+        if (vultAnim)
+        {
+            vultAnim.ResetTrig("Jump");
+        }
     }
 
     protected override void Start()
@@ -91,6 +96,12 @@ public class VultureSoarState : VultureStateClass
             _rb.useGravity = false;
             _rb.transform.forward = new Vector3(_rb.transform.forward.x, 0, _rb.transform.forward.z);
             lastMovementDirection = previousForwardDirection = new Vector2(_rb.transform.forward.x, _rb.transform.forward.z);
+        }
+
+        if (vultAnim)
+        {
+            vultAnim.SetTrig("Jump");
+            vultAnim.SetBoolean("Airborne", true);
         }
 
         turnPercent = soarTime = 0;

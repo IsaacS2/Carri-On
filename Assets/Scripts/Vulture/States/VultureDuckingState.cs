@@ -24,6 +24,17 @@ public class VultureDuckingState : VultureStateClass
         isGrounded = true;
         isJumping = false;
         stepsSinceLastGrounded = 0;
+
+        if (vultAnim)
+        {
+            Debug.Log("ground?");
+
+
+            vultAnim.ResetTrig("Jump");
+            vultAnim.ResetTrig("Idle");
+            vultAnim.ResetTrig("Downed");
+            vultAnim.SetBoolean("Airborne", false);
+        }
     }
 
     private void OnDisable()
@@ -43,6 +54,16 @@ public class VultureDuckingState : VultureStateClass
         if (vultureBase != null)
         {
             vultureBase.transform.localScale = new Vector3(initialScale.x, initialScale.y * .5f, initialScale.z);
+        }
+
+        if (vultAnim)
+        {
+            Debug.Log("ground?");
+
+            vultAnim.ResetTrig("Jump");
+            vultAnim.ResetTrig("Idle");
+            vultAnim.ResetTrig("Downed");
+            vultAnim.SetBoolean("Airborne", false);
         }
     }
 
@@ -64,6 +85,10 @@ public class VultureDuckingState : VultureStateClass
             _rb.AddForce(Vector3.up * baseJumpPower, ForceMode.Impulse);
             isGrounded = false;
             isJumping = true;
+            if (vultAnim)
+            {
+                vultAnim.SetTrig("Jump");
+            }
         }
     }
     

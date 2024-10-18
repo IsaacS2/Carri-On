@@ -47,12 +47,26 @@ public class VultureSlideState : VultureStateClass
                 if (!duckPrepped && _movementDirection != Vector2.zero
                     && _movementDirection != new Vector2(_rb.transform.forward.x, _rb.transform.forward.z) * -1)  // switching straight into a glide
                 {
+                    if (vultAnim)
+                    {
+                        vultAnim.SetBoolean("Airborne", true);
+                    }
                     ChildSwitchState((int)AnimalStates.Gliding);
                 }
                 else
                 {
+                    if (vultAnim)
+                    {
+                        vultAnim.SetBoolean("Glide", false);
+                    }
+
                     if (isGrounded)
                     {
+                        if (vultAnim)
+                        {
+                            vultAnim.SetTrig("Idle");
+                        }
+
                         if (duckPrepped)
                         {
                             ChildSwitchState((int)AnimalStates.Ducking);
@@ -84,6 +98,11 @@ public class VultureSlideState : VultureStateClass
 
     private void RestartSlideState()
     {
+        if (vultAnim)
+        {
+            vultAnim.ResetTrig("Downed");
+        }
+
         if (_rb != null)
         {
             _rb.velocity = Vector3.zero;

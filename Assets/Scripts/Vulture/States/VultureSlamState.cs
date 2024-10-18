@@ -8,6 +8,10 @@ public class VultureSlamState : VultureStateClass
 
     private void OnEnable()
     {
+        if (vultAnim)
+        {
+            vultAnim.SetTrig("Downed");
+        }
         if (_rb != null)
         {
             _rb.velocity = Vector3.zero;
@@ -17,12 +21,23 @@ public class VultureSlamState : VultureStateClass
 
     private void OnDisable()
     {
+        if (vultAnim)
+        {
+            vultAnim.ResetTrig("Downed");
+            vultAnim.SetBoolean("Airborne", false);
+            vultAnim.SetTrig("Idle");
+        }
         if (_rb != null) { _rb.useGravity = true; }
     }
 
     protected override void Start()
     {
         base.Start();
+
+        if (vultAnim)
+        {
+            vultAnim.SetTrig("Downed");
+        }
 
         if (_rb != null)
         {

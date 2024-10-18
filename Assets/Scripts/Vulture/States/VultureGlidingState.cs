@@ -22,6 +22,10 @@ public class VultureGlidingState : VultureStateClass
 
     private void OnDisable()
     {
+        if (vultAnim)
+        {
+            vultAnim.SetBoolean("Glide", false);
+        }
         if (_rb != null) { _rb.useGravity = true; }
     }
 
@@ -94,6 +98,11 @@ public class VultureGlidingState : VultureStateClass
 
     public override void Ducking()
     {
+        if (vultAnim)
+        {
+            vultAnim.SetTrig("Downed");
+        }
+
         if (isGrounded)
         {
             ChildSwitchState((int)AnimalStates.Ducking);
@@ -113,6 +122,12 @@ public class VultureGlidingState : VultureStateClass
             previousForwardDirection = _rb.transform.forward;
             lastMovementDirection = new Vector2(_rb.transform.forward.x, _rb.transform.forward.z);
             turnPercent = 0;
+        }
+
+        if (vultAnim)
+        {
+            Debug.Log("glide?");
+            vultAnim.SetBoolean("Glide", true);
         }
     }
 }

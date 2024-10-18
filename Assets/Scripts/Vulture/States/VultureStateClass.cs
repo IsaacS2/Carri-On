@@ -14,6 +14,7 @@ public class VultureStateClass : MonoBehaviour, IVultureState
     private bool _jump, _duck, _attack;
 
     protected VultureObject vultObj;
+    protected VultureAnimator vultAnim;
     protected Rigidbody _rb;
     protected Vector3 _velocity;
     protected Vector2 _movementDirection;
@@ -47,6 +48,8 @@ public class VultureStateClass : MonoBehaviour, IVultureState
         }
 
         vultObj = Vulture.GetComponent<VultureObject>();
+
+        vultAnim = Vulture.GetComponent<VultureAnimator>();
     }
 
     protected virtual void Update()
@@ -58,18 +61,22 @@ public class VultureStateClass : MonoBehaviour, IVultureState
     {
         UpdateState();
         AdjustVelocity();
-        //RaycastHit hit;
 
         if (_rb != null)
         {
             isGrounded = vultObj.PlatformContact();
-            /*isGrounded = Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f) && vultObj.PlatformContact();
-            Debug.Log("Raycast collision: " + Physics.Raycast(_rb.position + new Vector3(0, 0.1f, 0), Vector3.down, out hit, 0.2f)
-                + " Platform collision: " + vultObj.PlatformContact());
-            Debug.DrawRay(_rb.position, Vector3.down * hit.distance, Color.green, 1f);*/
+            
             if (_movementDirection != Vector2.zero)
             {
                 _rb.transform.forward = (new Vector3(_movementDirection.x, 0, _movementDirection.y)).normalized;
+                if (vultAnim)
+                {
+                    vultAnim.SetBoolean("Moving", true);
+                }
+            }
+            else if (vultAnim)
+            {
+                vultAnim.SetBoolean("Moving", false);
             }
 
             if (!newMovement || isJumping) {

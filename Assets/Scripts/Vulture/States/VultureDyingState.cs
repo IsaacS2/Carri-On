@@ -13,11 +13,25 @@ public class VultureDyingState : VultureStateClass
     private void OnEnable()
     {
         currentDeathTime = 0;
+        if (vultAnim)
+        {
+            vultAnim.SetTrig("Dead");
+        }
     }
 
     private void OnDisable()
     {
         currentDeathTime = deathTimer;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        if (vultAnim)
+        {
+            vultAnim.SetTrig("Dead");
+        }
     }
 
     protected override void Update()
@@ -33,6 +47,4 @@ public class VultureDyingState : VultureStateClass
             }
         }
     }
-
-
 }

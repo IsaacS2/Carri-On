@@ -15,6 +15,14 @@ public class VultureGroundedState : VultureStateClass
         isGrounded = true;
         isJumping = false;
         stepsSinceLastGrounded = 0;
+        if (vultAnim)
+        {
+            Debug.Log("ground?");
+
+            vultAnim.ResetTrig("Jump");
+            vultAnim.ResetTrig("Idle");
+            vultAnim.SetBoolean("Airborne", false);
+        }
     }
 
     protected override void Start()
@@ -22,6 +30,15 @@ public class VultureGroundedState : VultureStateClass
         base.Start();
 
         initialSpeed = speed;
+
+        if (vultAnim)
+        {
+            Debug.Log("ground?");
+
+            vultAnim.ResetTrig("Jump");
+            vultAnim.ResetTrig("Idle");
+            vultAnim.SetBoolean("Airborne", false);
+        }
 
         // vulture's base location
         vultureBase = Vulture != null && Vulture.transform.parent ? Vulture.transform.parent.gameObject : Vulture;
@@ -44,6 +61,10 @@ public class VultureGroundedState : VultureStateClass
             _rb.AddForce(Vector3.up * baseJumpPower, ForceMode.Impulse);
             isGrounded = false;
             isJumping = true;
+            if (vultAnim)
+            {
+                vultAnim.SetTrig("Jump");
+            }
         }
     }
 
@@ -51,10 +72,16 @@ public class VultureGroundedState : VultureStateClass
     {
         if (vultureBase != null && isGrounded)
         {
+            vultAnim.SetTrig("Downed");
+            vultAnim.SetBoolean("Airborne", false);
+
             if (_movementDirection != Vector2.zero)
             {
+                if (vultAnim)
+                {
+                    vultAnim.SetBoolean("Glide", true);
+                }
                 ChildSwitchState((int)AnimalStates.Sliding);
-
             }
             else
             {

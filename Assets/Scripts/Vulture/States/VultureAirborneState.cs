@@ -7,6 +7,29 @@ public class VultureAirborneState : VultureStateClass
     [SerializeField, Range(0f, 100f)] float maxAcceleration = 4f, maxDownwardVelocity = 100f;  // limit acceleration and speed that player falls
     Vector2 _XZvelocity;
 
+    private void OnEnable()
+    {
+        if (vultAnim) {
+            Debug.Log("air?");
+
+            vultAnim.SetBoolean("Airborne", true);
+            vultAnim.ResetTrig("Jump");
+        }
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        if (vultAnim)
+        {
+            Debug.Log("air?");
+
+            vultAnim.SetBoolean("Airborne", true);
+            vultAnim.ResetTrig("Jump");
+        }
+    }
+
     protected override void Update()
     {
         base.Update();
