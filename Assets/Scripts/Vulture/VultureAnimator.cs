@@ -9,6 +9,6 @@ public class VultureAnimator : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponent<Animator>();
+        _anim = GetComponent<Animator>();
     }
 }
