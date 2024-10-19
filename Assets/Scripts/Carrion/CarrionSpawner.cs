@@ -38,7 +38,6 @@ public class CarrionSpawner : MonoBehaviour
         }
 
         // disable timer when carrion is collected or destroyed
-        Debug.Log(newCarrion);
         if (newCarrion == null && UITimer.enabled)
         {
             UITimer.enabled = false;

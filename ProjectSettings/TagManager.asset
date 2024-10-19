@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Platform
   - Carrion
+  - CarrionCollected
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - Water
   - UI
   - Agent
-  - 
+  - PostProcessing
   - 
   - 
   - 

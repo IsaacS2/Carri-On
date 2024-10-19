@@ -7,6 +7,7 @@ public class Checkpoint : MonoBehaviour
     private int checkpointNum;
 
     [SerializeField] private Transform newTransform;
+    [SerializeField] private bool ending;
 
     public void SetCheckpointNum(int _num)
     {
@@ -22,7 +23,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            LevelManager.Instance.NewCheckpointHit(checkpointNum, newTransform.position);
+            LevelManager.Instance.NewCheckpointHit(checkpointNum, newTransform ? newTransform.position : Vector3.zero);
             
             TempLevelStorage collectedItems = other.gameObject.GetComponent<TempLevelStorage>();
 
@@ -31,6 +32,11 @@ public class Checkpoint : MonoBehaviour
                 //Debug.Log("Collected carrions :" + collectedItems.GetCarrionObtained().Count);
                 LevelManager.Instance.AddCarrions(collectedItems.GetCarrionObtained());
                 collectedItems.ClearCarrions();
+            }
+
+            if (ending)
+            {
+                LevelManager.Instance.LevelComplete();
             }
         }
     }

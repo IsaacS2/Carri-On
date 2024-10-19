@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class VultureDyingState : VultureStateClass
 {
+    [SerializeField] private ParticleSystem blood;
     [SerializeField] private float deathTimer = 1;
 
     private float currentDeathTime;

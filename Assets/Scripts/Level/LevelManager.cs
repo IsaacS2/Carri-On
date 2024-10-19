@@ -99,9 +99,9 @@ public class LevelManager : MonoBehaviour
         //Debug.Log("currentCheckpointPosition after: " + Instance.currentCheckpointPosition);
     }
 
-    private void LevelComplete()
+    public void LevelComplete()
     {
-        GameManager.Instance.OnLevelComplete(currentLevelIndex, carrionCollected);
+        GameManager.Instance.OnLevelComplete(currentLevelIndex, carrionCollected, carrionTotal);
     }
 
     public void StartLevel()
@@ -183,7 +183,6 @@ public class LevelManager : MonoBehaviour
 
                 if (newPreyScript)
                 {
-                    Debug.Log("PreySpawned: " + i);
                     newPreyScript.SetCarrionNum(i);
                 }
             }
