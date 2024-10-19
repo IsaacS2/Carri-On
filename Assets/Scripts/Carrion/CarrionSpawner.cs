@@ -35,12 +35,12 @@ public class CarrionSpawner : MonoBehaviour
                 UITimer.enabled = true;
             }
             UITimer.text = originalText + carrionTimer.ToString("#.00");  // display time left
-        }
 
-        // disable timer when carrion is collected or destroyed
-        if (newCarrion == null && UITimer.enabled)
-        {
-            UITimer.enabled = false;
+            // disable timer when carrion is collected or destroyed
+            if (newCarrion == null && UITimer.enabled)
+            {
+                UITimer.enabled = false;
+            }
         }
     }
 
