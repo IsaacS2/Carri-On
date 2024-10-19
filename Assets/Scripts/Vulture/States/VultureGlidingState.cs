@@ -126,7 +126,6 @@ public class VultureGlidingState : VultureStateClass
 
         if (vultAnim)
         {
-            Debug.Log("glide?");
             vultAnim.SetBoolean("Glide", true);
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] protected GameObject model;
     [SerializeField] protected float attackingTimeLimit;
 
     protected AnimalStates currentState;

@@ -8,11 +8,11 @@ using TMPro;
 public class CarrionSpawner : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI UITimer;
-    [SerializeField] private GameObject carrionPrefab;
-    [SerializeField] private Transform carrionTransform;
-    [SerializeField] private float carrionTimeLimit;
+    [SerializeField] public GameObject livePrefab, cutsceneBlocker, predatorPrefab;
+    [SerializeField] public Transform carrionTransform, predatorTransform;
+    [SerializeField] private float carrionTimeLimit, cutsceneTime = 0;
 
-    private GameObject newCarrion;
+    public GameObject newCarrion;
     private string originalText;
     private float carrionTimer;
     private int carrionNum;
@@ -28,10 +28,17 @@ public class CarrionSpawner : MonoBehaviour
                 carrionTimer = 0;
                 Destroy(newCarrion);
             }
+
+            if (cutsceneBlocker.activeSelf && carrionTimer <= carrionTimeLimit)  // cutscene done
+            {
+                cutsceneBlocker.SetActive(false);
+                UITimer.enabled = true;
+            }
             UITimer.text = originalText + carrionTimer.ToString("#.00");  // display time left
         }
 
         // disable timer when carrion is collected or destroyed
+        Debug.Log(newCarrion);
         if (newCarrion == null && UITimer.enabled)
         {
             UITimer.enabled = false;
@@ -46,21 +53,14 @@ public class CarrionSpawner : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && carrionPrefab)
+        if (other.gameObject.CompareTag("Player") && livePrefab)
         {
-            newCarrion = Instantiate(carrionPrefab, carrionTransform.position + carrionPrefab.transform.position, Quaternion.identity);
-            Carrion newCarrionScript = newCarrion.GetComponent<Carrion>();
-
-            if (newCarrionScript)
-            {
-                newCarrionScript.SetCarrionNum(carrionNum);
-                //Debug.Log("Script Collected from carrion number " + newCarrionScript.GetCarrionNum());
-            }
+            // create predator
+            Instantiate(predatorPrefab, predatorTransform.position + carrionTransform.position, predatorPrefab.transform.rotation);
 
             // Disable spawner collider since the carrion should only be spawned once
             GetComponent<Collider>().enabled = false;
-            carrionTimer = carrionTimeLimit;
-            UITimer.enabled = true;
+            carrionTimer = carrionTimeLimit + cutsceneTime;
         }
     }
 

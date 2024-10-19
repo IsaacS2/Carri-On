@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class LungingEnemy : JumpingEnemy
 {
-    [SerializeField] private GameObject model;
+    [SerializeField] private float startingZRotation;
     private bool turnEnemy;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+    }
+
+    private void Start()
+    {
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x,
+            transform.localEulerAngles.y, transform.localEulerAngles.z + startingZRotation);
+    }
 
     private void FixedUpdate()
     {
@@ -13,11 +24,8 @@ public class LungingEnemy : JumpingEnemy
         {
             turnEnemy = true;
 
-            if (model)
-            {
-                model.transform.localEulerAngles =
-                    new Vector3(model.transform.localEulerAngles.x, model.transform.localEulerAngles.y, -model.transform.localEulerAngles.z);
-            }
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x,
+                transform.localEulerAngles.y, startingZRotation - 90);
         }
     }
 
@@ -25,13 +33,13 @@ public class LungingEnemy : JumpingEnemy
     {
         base.OnCollisionEnter(collision);
 
+        _rb.velocity = Vector3.zero;
+
         if (currentState == AnimalStates.Grounded && turnEnemy)
         {
             jumpDirection.x *= -1;  // switch jumping direction
-            if (model) {
-                model.transform.localEulerAngles =
-                    new Vector3(model.transform.localEulerAngles.x, model.transform.localEulerAngles.y + 180, -model.transform.localEulerAngles.z); 
-            }
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x,
+                transform.localEulerAngles.y + 180, startingZRotation);
             turnEnemy = false;
         }
     }

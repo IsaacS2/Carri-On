@@ -12,7 +12,7 @@ public class JumpingEnemy : Enemy
     protected Rigidbody _rb;
     protected float groundedTimer;
 
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         _rb = GetComponent<Rigidbody>();
         currentState = AnimalStates.Grounded;

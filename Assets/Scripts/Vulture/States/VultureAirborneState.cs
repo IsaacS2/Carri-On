@@ -10,8 +10,6 @@ public class VultureAirborneState : VultureStateClass
     private void OnEnable()
     {
         if (vultAnim) {
-            Debug.Log("air?");
-
             vultAnim.SetBoolean("Airborne", true);
             vultAnim.ResetTrig("Jump");
         }
@@ -23,8 +21,6 @@ public class VultureAirborneState : VultureStateClass
 
         if (vultAnim)
         {
-            Debug.Log("air?");
-
             vultAnim.SetBoolean("Airborne", true);
             vultAnim.ResetTrig("Jump");
         }

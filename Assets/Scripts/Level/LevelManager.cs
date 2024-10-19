@@ -24,8 +24,8 @@ public class LevelManager : MonoBehaviour
     {
         Instance?.StartLevel();
 
-        Instance.ResetCheckpoints();
-        Instance.ResetCarrionSpawners();
+        //Instance.ResetCheckpoints();
+        //Instance.ResetCarrionSpawners();
         //Debug.Log("Level Manager Enabled Called");
 
         SceneManager.sceneLoaded += Instance.OnSceneLoaded;
@@ -140,6 +140,11 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void AssignCarrion(int _carrionNum, GameObject _carrion)
+    {
+        Instance.carrionSpawners[_carrionNum].GetComponent<CarrionSpawner>().newCarrion = _carrion;
+    }
+
     private void RepositionPlayer()
     {
         player = GameObject.FindWithTag("Player");
@@ -165,8 +170,23 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < Instance.carrionSpawners.Length; i++)
         {
             Instance.carrionSpawners[i].GetComponent<Collider>().enabled = true;
-            //Debug.Log("Resetting carrrion spawner number: " + i);
+            Debug.Log("Resetting carrrion spawner number: " + i);
             Instance.carrionSpawners[i].SetActive(!Instance.carrionSpawnersDisabled[i]);
+            if (Instance.carrionSpawners[i].activeSelf)
+            {
+                CarrionSpawner script = Instance.carrionSpawners[i].GetComponent<CarrionSpawner>();
+                script.cutsceneBlocker.SetActive(true);
+
+                GameObject prey = Instantiate(script.livePrefab, script.carrionTransform.position + script.livePrefab.transform.position, script.livePrefab.transform.rotation);
+
+                PreCarrion newPreyScript = prey.GetComponent<PreCarrion>();
+
+                if (newPreyScript)
+                {
+                    Debug.Log("PreySpawned: " + i);
+                    newPreyScript.SetCarrionNum(i);
+                }
+            }
         }
     }
 }

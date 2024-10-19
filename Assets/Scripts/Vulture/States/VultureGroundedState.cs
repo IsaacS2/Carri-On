@@ -17,10 +17,6 @@ public class VultureGroundedState : VultureStateClass
         stepsSinceLastGrounded = 0;
         if (vultAnim)
         {
-            Debug.Log("ground?");
-
-            vultAnim.ResetTrig("Jump");
-            vultAnim.ResetTrig("Idle");
             vultAnim.SetBoolean("Airborne", false);
         }
     }
@@ -33,10 +29,6 @@ public class VultureGroundedState : VultureStateClass
 
         if (vultAnim)
         {
-            Debug.Log("ground?");
-
-            vultAnim.ResetTrig("Jump");
-            vultAnim.ResetTrig("Idle");
             vultAnim.SetBoolean("Airborne", false);
         }
 
@@ -72,7 +64,6 @@ public class VultureGroundedState : VultureStateClass
     {
         if (vultureBase != null && isGrounded)
         {
-            vultAnim.SetTrig("Downed");
             vultAnim.SetBoolean("Airborne", false);
 
             if (_movementDirection != Vector2.zero)
@@ -80,11 +71,13 @@ public class VultureGroundedState : VultureStateClass
                 if (vultAnim)
                 {
                     vultAnim.SetBoolean("Glide", true);
+                    vultAnim.SetTrig("Downed");
                 }
                 ChildSwitchState((int)AnimalStates.Sliding);
             }
             else
             {
+                vultAnim.SetTrig("Downed");
                 ChildSwitchState((int)AnimalStates.Ducking);
             }
         }

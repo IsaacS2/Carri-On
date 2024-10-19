@@ -100,7 +100,7 @@ public class VultureSlideState : VultureStateClass
     {
         if (vultAnim)
         {
-            vultAnim.ResetTrig("Downed");
+            //vultAnim.ResetTrig("Downed");
         }
 
         if (_rb != null)

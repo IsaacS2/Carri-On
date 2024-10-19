@@ -15,4 +15,11 @@ public class Carrion : MonoBehaviour
     {
         return carrionNum;
     }
+
+    private void Start()
+    {
+        Debug.Log(carrionNum);
+
+        LevelManager.Instance.AssignCarrion(carrionNum, gameObject);
+    }
 }

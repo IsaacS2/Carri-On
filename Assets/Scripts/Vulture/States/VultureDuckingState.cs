@@ -27,9 +27,6 @@ public class VultureDuckingState : VultureStateClass
 
         if (vultAnim)
         {
-            Debug.Log("ground?");
-
-
             vultAnim.ResetTrig("Jump");
             vultAnim.ResetTrig("Idle");
             vultAnim.ResetTrig("Downed");
@@ -58,8 +55,6 @@ public class VultureDuckingState : VultureStateClass
 
         if (vultAnim)
         {
-            Debug.Log("ground?");
-
             vultAnim.ResetTrig("Jump");
             vultAnim.ResetTrig("Idle");
             vultAnim.ResetTrig("Downed");

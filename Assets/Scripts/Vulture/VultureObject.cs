@@ -22,7 +22,6 @@ public class VultureObject : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("platform contact: " + platformContact);
         platformContact = false;
     }
 

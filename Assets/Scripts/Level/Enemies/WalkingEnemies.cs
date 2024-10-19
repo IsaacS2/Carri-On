@@ -38,6 +38,12 @@ public class WalkingEnemies : Enemy
                 }
 
                 currentTargetPos = walkingPositions[currentTargetIndex].position;
+
+                if (model)
+                {
+                    model.transform.localEulerAngles = new Vector3(model.transform.localEulerAngles.x,
+                        model.transform.localEulerAngles.y + 180, model.transform.localEulerAngles.z);
+                }
             }
         }
         else if (currentState == AnimalStates.Attacking)
